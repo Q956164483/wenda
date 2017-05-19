@@ -11,6 +11,7 @@ import '../font/common/style.css'
 import '../font/user/style.css'
 import '../font/icon/iconfont.css'
 import '../css/common.scss'
+import '../css/mint-ui.scss'
 
 export default {}
 </script>

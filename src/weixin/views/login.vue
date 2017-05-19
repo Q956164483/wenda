@@ -8,31 +8,56 @@
       <img :src="logoSrc" class="logo">
     </div>
     <div class="form">
-      <div class="user">
-        <input type="text" placeholder="请输入您的账号、手机号或邮箱号" v-model="username"  autocomplete="off">
-        <div v-show="isSubmit">
+      <div class="user clear">
+        <input type="text" placeholder="请输入您的账号、手机号或邮箱号" v-model="username"  autocomplete="off" class="fl">
+        <div v-show="isSubmit" class="warn fr">
           <span class="correct" v-if="nameCorrect">账号输入正确</span>
           <span class="error" v-else>账号输入有误</span>
         </div>
       </div>
-      <div class="password">
-        <input type="password" placeholder="请输入您的账号密码" v-model="password" autocomplete="off">
-        <div v-show="isSubmit">
+      <div class="password clear">
+        <input type="password" placeholder="请输入您的账号密码" v-model="password" autocomplete="off" class="fl">
+        <div v-show="isSubmit" class="warn fr">
           <span class="correct" v-if="passCorrect">密码输入正确</span>
           <span class="error" v-else>密码输入有误</span>
         </div>
       </div>
-      <div class="other clear">
-        <a href="javascript:void(0);" class="register" @click="$router.push('/register')">注册账号</a>
-        <a href="javascript:void(0);" class="forgetPwd" @click="$router.push('/forgetPwd')">忘记密码？</a>
+      <div class="otherOpt clear">
+        <a href="javascript:void(0);" class="register fl" @click="$router.push('/register')">注册账号</a>
+        <a href="javascript:void(0);" class="forgetPwd fr" @click="$router.push('/forgetPwd')">忘记密码？</a>
       </div>
-      <a href="javascript:void(0);" class="loginBtn">登&nbsp;&nbsp;录</a>
+      <a href="javascript:void(0);" class="loginBtn" @click="login">登&nbsp;&nbsp;录</a>
+      <div class="otherLogin" @click="openOther">
+        <img :src="iconArrow" class="arrow-up">
+        <div class="text">其他账号登录</div>
+      </div>
+    </div>
+    <!-- 其他登录 -->
+    <div class="otherWrap" v-show="isShowOther">
+      <div class="otherBg" @click="closeMain"></div>
+      <transition name="slide">
+        <div class="otherContent" v-show="isShowMain">
+          <i class="comicon-28"></i>
+          <div class="text">其他账号登录</div>
+          <div class="main clear">
+            <div class="weixin fl">
+              <img :src="iconWeixin" class="icon-weixin" @click="loginWeixin">
+              <p>微信</p>
+            </div>
+            <div class="qq fr">
+              <img :src="iconQQ" class="icon-qq" @click="loginQQ">
+              <p>QQ</p>
+            </div>
+          </div>
+        </div>
+      </transition>
     </div>
   </div>
 </template>
 
 <script type="text/javascript">
 import pathNav from '../components/path.vue'
+import {Indicator} from 'mint-ui'
 import '../css/login.scss'
 
 export default {
@@ -42,12 +67,50 @@ export default {
   data() {
     return {
       logoSrc: require('../img/logo.png'),
+      iconArrow: require('../img/arrow-up.png'),
+      iconWeixin: require('../img/weixin.png'),
+      iconQQ: require('../img/qq.png'),
       username: '',
       password: '',
       isSubmit: false,
       nameCorrect: true,
-      passCorrect: true
+      passCorrect: true,
+      isShowOther: false,
+      isShowMain: false
+    }
+  },
+  methods: {
+    openOther() {
+      this.isShowOther = true
+      this.isShowMain = true
+    },
+    closeMain() {
+      this.isShowMain = false
+      // 外层延迟一点关闭，否则看不到leave动画
+      setTimeout(this.closeOther, 200)
+    },
+    closeOther() {
+      this.isShowOther = false
+    },
+    login() {
+      // 前端判断用户名密码
+
+      // 传去后台，开启loading
+      Indicator.open({
+        text: '加载中...',
+        spinnerType: 'snake'
+      })
+      // 根据反馈改nameCorrect，passCorrect
+
+      // close loading，最后isSubmit显示；跳转登陆后页面 || 留在当前
+    },
+    loginWeixin() {
+      // 授权
+    },
+    loginQQ() {
+      // 第三方sdk
     }
   }
 }
 </script>
+

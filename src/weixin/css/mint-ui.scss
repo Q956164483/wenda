@@ -1,0 +1,19 @@
+@import "./color.scss";
+@import "./mixins.scss";
+
+.mint-indicator-wrapper {
+  padding: pxToRem(35) pxToRem(40) !important;
+  span {
+    div {
+      width: pxToRem(50) !important;
+      height: pxToRem(50) !important;
+    }
+  }
+  .mint-indicator-text {
+    display: block;
+    color: #fff;
+    text-align: center;
+    margin-top: pxToRem(10);
+    font-size: pxToRem(32);
+  }
+}

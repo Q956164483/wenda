@@ -10,8 +10,9 @@
       margin-top: pxToRem(170);
     }
   }
+  //input部分
   .form {
-    padding: pxToRem(100) 0 pxToRem(40);
+    padding: pxToRem(100) 0 0;
     .user,.password {
       border-top: 1px solid $border-color;
       input {
@@ -21,20 +22,31 @@
         @include font-dpr(30px);
         border: none;
       }
+      .warn {
+        height:pxToRem(82);
+        line-height: pxToRem(82);
+        padding-right: pxToRem(32);
+        span {
+          @include btn(pxToRem(210), pxToRem(60), 26, 4px)
+          background-color: #eee;
+          border-color: #eee;
+          &.correct {
+            color: $themeColor;
+          }
+          &.error {
+            color: $errorRed;
+          }
+        }
+      }
     }
     .password {
       border-bottom: 1px solid $border-color;
     }
-    .other {
+    //两个链接
+    .otherOpt {
       padding: pxToRem(30) pxToRem(100) 0;
       a {
         text-decoration: underline;
-      }
-      .register {
-        float: left;
-      }
-      .forgetPwd {
-        float: right;
       }
     }
     .loginBtn {
@@ -42,5 +54,64 @@
       display: block;
       margin: pxToRem(100) auto pxToRem(64);
     }
+    //选择其他登录箭头
+    .otherLogin {
+      text-align: center;
+      img {
+        width: pxToRem(30);
+        height:pxToRem(16);
+      }
+      .text {
+        margin-top: pxToRem(20);
+        color:$txtColor3;
+        @include font-dpr(32px);
+        text-align: center;
+      }
+    }
+  }
+  //其他登录框
+  .otherWrap {
+    z-index: 1000;
+    text-align: center;
+    &,.otherBg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .otherBg {
+      background-color: rgba(0,0,0,0.4);
+    }
+    .otherContent {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: pxToRem(300);
+      background-color: #fff;
+      i {
+        display: inline-block;
+        margin: pxToRem(20) auto pxToRem(15);
+      }
+      .text {
+        color: $txtColor3;
+      }
+      .main {
+        width: pxToRem(260);
+        margin: pxToRem(36) auto 0;
+        color: $txtColor2;
+        img {
+          margin-bottom: 6px;
+        }
+      }
+    }
+  }
+  //其他登录框动画
+  .slide-enter-active,.slide-leave-active {
+    transition: all .2s ease; 
+  }
+  .slide-enter,.slide-leave-active {
+    transform: translateY(pxToRem(300));
   }
 }
