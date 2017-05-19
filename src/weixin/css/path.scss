@@ -3,9 +3,10 @@
 
   .path{
     position: fixed;
+    top: $path-top;
     width: 100%;
     height:  pxToRem(70);
-    background-color: $themeBg;
+    background-color: $theme-bg;
     border-bottom: 1px solid $border-color;
     padding: 0 pxToRem(30);
     display: flex;
@@ -16,12 +17,12 @@
         padding: 0 pxToRem(15);
     }
     a {
-        color: $themeColor;
+        color: $theme-color;
         /*color: #666;*/
     }
     .icon1-return{
         font-size: pxToRem(35);
-        color: $themeColor;
+        color: $theme-color;
         margin-right: pxToRem(20);
     }
     .icon1-link{
