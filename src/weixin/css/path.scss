@@ -1,0 +1,44 @@
+@import "./color.scss";
+@import "./mixins.scss";
+
+  .path{
+    position: fixed;
+    top: $pathTop;
+    width: 100%;
+    height:  pxToRem(70);
+    background-color: $themeBg;
+    border-bottom: 1px solid $border-color;
+    padding: 0 pxToRem(30);
+    display: flex;
+    align-items: center;
+    color: #666;
+    font-size: 30px;
+    a,span{
+        padding: 0 pxToRem(15);
+    }
+    a {
+        color: $themeColor;
+        /*color: #666;*/
+    }
+    .icon1-return{
+        font-size: pxToRem(35);
+        color: $themeColor;
+        margin-right: pxToRem(20);
+    }
+    .icon1-link{
+        font-size: pxToRem(20);
+        color: #666;
+        transform: rotate(180deg);
+    }
+    .left{
+        flex: 7;
+        display: flex;
+        align-items: center;
+    }
+    .right{
+        flex: 3;
+        display: flex;
+        align-items: center;
+        text-align: right;
+    } 
+  }

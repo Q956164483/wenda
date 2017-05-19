@@ -1,22 +1,16 @@
 <template>
-  <div id="app">
-    <router-view></router-view>
+  <div>
+    <header style="height:130px;background:#eee;position:fixed;top:0;width: 100%;z-index: 999;"></header>
+    <div class="container" style="margin-top:130px;">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
+<script type="text/javascript">
+import '../font/common/style.css'
+import '../font/user/style.css'
+import '../font/icon/iconfont.css'
+import '../css/common.scss'
 
-<script>
-export default {
-  name: 'app'
-}
+export default {}
 </script>
-
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>

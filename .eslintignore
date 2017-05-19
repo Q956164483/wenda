@@ -1,2 +1,4 @@
 build/*.js
 config/*.js
+src/weixin/vuex/*.js
+src/weixin/utils/*.js

@@ -1,0 +1,37 @@
+@import "./color.scss";
+@import "./mixins.scss";
+
+html, body, div, span, object, iframe,h1, h2, h3, h4, h5, h6, p, pre,a,acronym,address, big,cite, code, em, img, small, strike, strong, b, i, dl, dt, dd, ol, ul, li, fieldset, form, label,legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details,figure, figcaption, footer, header, hgroup, menu, nav, output, section, audio, video,input {margin: 0;padding: 0;box-sizing:border-box;}
+html,body{
+  font-family: Helvetica Neue,Tahoma,Arial,PingFangSC-Regular,Hiragino Sans GB,Microsoft Yahei,sans-serif;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  tap-highlight-color: transparent;
+//   color: #333;
+//   background: #F4F4F4;
+}
+body {
+  @include font-dpr(30px);
+}
+a{
+    color: $themeColor;
+    text-decoration: none;}
+li{list-style: none;}
+#app {-webkit-font-smoothing: antialiased;}
+
+/*弹性盒子*/
+.box{display: -webkit-box !important;display: box !important;position:relative;}
+.box-f1{position:relative;-webkit-box-flex: 1;box-flex: 1;}
+.box-ac{-webkit-box-align:center;box-align:center;}
+.box-pc{-webkit-box-pack:center;box-pack:center;}
+.box-ver{-webkit-box-orient:vertical;box-orient:vertical;}
+.box-rev {-webkit-box-direction:reverse;box-direction:reverse;}
+.hide{display: none !important;}
+/*浮动+清除浮动*/
+.fr{float: right} .fl{float: left}
+.clear:after{content:'';display:block;clear: both}
+/*文字超出显示省略号*/
+.ellipsis{overflow: hidden;white-space: nowrap; text-overflow: ellipsis}

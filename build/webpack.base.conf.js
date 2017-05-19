@@ -19,7 +19,7 @@ module.exports = {
       : config.dev.assetsPublicPath
   },
   resolve: {
-    extensions: ['.js', '.vue', '.json'],
+    // extensions: ['.js', '.vue', '.json'],
     alias: {
       'vue$': 'vue/dist/vue.esm.js'
     }
@@ -45,6 +45,13 @@ module.exports = {
         loader: 'babel-loader',
         include: [resolve('src'), resolve('test')]
       },
+      // {
+      //   test: /\.css$/,
+      //   loader: 'style-loader!css-loader!postcss-loader'
+      // }, {
+      //   test: /\.scss$/,
+      //   loader: 'style-loader!css-loader!postcss-loader!sass-loader'
+      // },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         loader: 'url-loader',

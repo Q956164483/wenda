@@ -1,0 +1,46 @@
+@import "./mixins.scss";
+@import "./color.scss";
+
+.login {
+  .logo {
+    text-align: center;
+    img.logo {
+      width: pxToRem(360);
+      height: pxToRem(360);
+      margin-top: pxToRem(170);
+    }
+  }
+  .form {
+    padding: pxToRem(100) 0 pxToRem(40);
+    .user,.password {
+      border-top: 1px solid $border-color;
+      input {
+        width: pxToRem(510);
+        height:pxToRem(82);
+        padding: pxToRem(28);
+        @include font-dpr(30px);
+        border: none;
+      }
+    }
+    .password {
+      border-bottom: 1px solid $border-color;
+    }
+    .other {
+      padding: pxToRem(30) pxToRem(100) 0;
+      a {
+        text-decoration: underline;
+      }
+      .register {
+        float: left;
+      }
+      .forgetPwd {
+        float: right;
+      }
+    }
+    .loginBtn {
+      @include btn(pxToRem(500),pxToRem(80),36px,pxToRem(80));
+      display: block;
+      margin: pxToRem(100) auto pxToRem(64);
+    }
+  }
+}
