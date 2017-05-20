@@ -14,7 +14,8 @@ html,body{
 //   background: #F4F4F4;
 }
 body {
-  @include font-dpr(30px);
+  //@include font-dpr(30px);
+  font-size:.3rem;
 }
 input{
   border:none;
