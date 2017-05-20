@@ -1,25 +1,32 @@
 @import "./mixins.scss";
 @import "./color.scss";
 
+html,body {
+  height:100%;
+  .root {
+    position: relative;
+    min-height: 100%;
+  }
+}
 .login {
   .logo {
     text-align: center;
     img.logo {
-      width: 3.6rem;
+      width: pxToRem(360);
       height: pxToRem(360);
-      margin-top: 20%;
+      margin-top: pxToRem(170);
     }
   }
   //input部分
   .form {
-    padding: 10% 0 0;
+    padding: pxToRem(100) 0 0;
     .user,.password {
       border-top: 1px solid $border-color;
       input {
         width: pxToRem(510);
         height:pxToRem(82);
         padding: pxToRem(28);
-        font-size: pxToRem(30);
+        @include font-dpr(15px);
         border: none;
       }
       .warn {
@@ -46,8 +53,7 @@
     .otherOpt {
       padding: pxToRem(30) pxToRem(100) 0;
       a {
-        // @include font-dpr(14px);
-        font-size: pxToRem(28);
+        @include font-dpr(14px);
         text-decoration: underline;
       }
     }
@@ -58,19 +64,18 @@
     }
     //选择其他登录箭头
     .otherLogin {
-      // position: fixed;
-      // width: 100%;
-      // bottom: pxToRem(24);
+      position: absolute;
+      width: 100%;
+      bottom: pxToRem(24);
       text-align: center;
       img {
         width: pxToRem(30);
         height:pxToRem(16);
       }
       .text {
-        margin-top: pxToRem(8);
+        margin-top: pxToRem(10);
         color:$txt-color3;
-        // @include font-dpr(16px);
-        font-size: pxToRem(32);
+        @include font-dpr(16px);
         text-align: center;
       }
     }
@@ -101,8 +106,7 @@
         margin: pxToRem(20) auto pxToRem(15);
       }
       .text {
-        // @include font-dpr(16px);
-        font-size: pxToRem(32);
+        @include font-dpr(16px);
         color: $txt-color3;
       }
       .main {

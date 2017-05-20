@@ -38,7 +38,7 @@
     display: none;
   }
 }
-  
+// 方案已改，布局和字体直接用px/100=rem，已经用到pxToRem和font-dpr的地方不动
 @function pxToRem($px) {
     @return $px / 100 * 1rem;
 }
@@ -57,7 +57,6 @@
 @mixin btn($width,$height,$fsize,$radius) {
   display: inline-block;
   @include font-dpr($fsize);
-  font-size: pxToRem(32);
   width: $width;
   height: $height;
   line-height: $height;
