@@ -170,7 +170,7 @@ export default {
     }
     .topic-list{
         margin-top:.72rem;
-        padding-bottom:1rem;
+        padding-bottom:1.1rem;
     }
     .topic-item{
         margin:.1rem .2rem;
