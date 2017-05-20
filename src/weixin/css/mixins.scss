@@ -40,10 +40,10 @@
 }
   
 @function pxToRem($px) {
-    @return $px / 78 * 1rem;
+    @return $px / 100 * 1rem;
 }
 
-//用于字体 eg: @include font-dpr(16px);
+// 用于字体 eg: @include font-dpr(16px);
 @mixin font-dpr($font-size) {
     font-size: $font-size;
     [data-dpr="2"] & {
@@ -57,6 +57,7 @@
 @mixin btn($width,$height,$fsize,$radius) {
   display: inline-block;
   @include font-dpr($fsize);
+  font-size: pxToRem(32);
   width: $width;
   height: $height;
   line-height: $height;

@@ -3,7 +3,6 @@
 
   .path{
     position: fixed;
-    top: $path-top;
     width: 100%;
     height:  pxToRem(70);
     background-color: $theme-bg;
@@ -15,6 +14,7 @@
     font-size: 30px;
     a,span{
         padding: 0 pxToRem(15);
+        @include font-dpr(15px);
     }
     a {
         color: $theme-color;

@@ -5,21 +5,21 @@
   .logo {
     text-align: center;
     img.logo {
-      width: pxToRem(360);
+      width: 3.6rem;
       height: pxToRem(360);
-      margin-top: pxToRem(170);
+      margin-top: 20%;
     }
   }
   //input部分
   .form {
-    padding: pxToRem(100) 0 0;
+    padding: 10% 0 0;
     .user,.password {
       border-top: 1px solid $border-color;
       input {
         width: pxToRem(510);
         height:pxToRem(82);
         padding: pxToRem(28);
-        @include font-dpr(30px);
+        font-size: pxToRem(30);
         border: none;
       }
       .warn {
@@ -27,14 +27,14 @@
         line-height: pxToRem(82);
         padding-right: pxToRem(32);
         span {
-          @include btn(pxToRem(210), pxToRem(60), 26, 4px)
+          @include btn(pxToRem(210), pxToRem(60), 13, 4px)
           background-color: #eee;
           border-color: #eee;
           &.correct {
-            color: $themeColor;
+            color: $theme-color;
           }
           &.error {
-            color: $errorRed;
+            color: $error-red;
           }
         }
       }
@@ -46,25 +46,31 @@
     .otherOpt {
       padding: pxToRem(30) pxToRem(100) 0;
       a {
+        // @include font-dpr(14px);
+        font-size: pxToRem(28);
         text-decoration: underline;
       }
     }
     .loginBtn {
-      @include btn(pxToRem(500),pxToRem(80),36px,pxToRem(80));
+      @include btn(pxToRem(500),pxToRem(80),18px,pxToRem(80));
       display: block;
-      margin: pxToRem(100) auto pxToRem(64);
+      margin: pxToRem(86) auto pxToRem(58);
     }
     //选择其他登录箭头
     .otherLogin {
+      // position: fixed;
+      // width: 100%;
+      // bottom: pxToRem(24);
       text-align: center;
       img {
         width: pxToRem(30);
         height:pxToRem(16);
       }
       .text {
-        margin-top: pxToRem(20);
-        color:$txtColor3;
-        @include font-dpr(32px);
+        margin-top: pxToRem(8);
+        color:$txt-color3;
+        // @include font-dpr(16px);
+        font-size: pxToRem(32);
         text-align: center;
       }
     }
@@ -95,12 +101,14 @@
         margin: pxToRem(20) auto pxToRem(15);
       }
       .text {
-        color: $txtColor3;
+        // @include font-dpr(16px);
+        font-size: pxToRem(32);
+        color: $txt-color3;
       }
       .main {
         width: pxToRem(260);
         margin: pxToRem(36) auto 0;
-        color: $txtColor2;
+        color: $txt-color2;
         img {
           margin-bottom: 6px;
         }
