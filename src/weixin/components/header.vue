@@ -1,5 +1,5 @@
 <template>
-    <header class="box box-ac header">
+    <div class="box box-ac header">
         <div class="icon-user" @click="checkLogin('./userList')">
             <div v-if="hasNews" class="news"></div>
         </div>
@@ -9,7 +9,7 @@
         </form>
         <div class="icon-user-list " @click="checkLogin('./userList')">
         </div>
-    </header>
+    </div>
 </template>
 <script>
 export default {
@@ -34,49 +34,53 @@ export default {
 <style lang="scss" scoped>
     @import '../css/color.scss';
     @import '../css/mixins.scss';
-
     .header{
-        height:pxToRem(110);
-        padding-left:pxToRem(20);
-        padding-right:pxToRem(20);
+        position:fixed !important;
+        background-color:$theme-bg;
+        z-index:1000;
+        width:100%;
+        top:0;
+        height:1.1rem;
+        padding-left:.2rem;
+        padding-right:.2rem;;
         @include border-1px($border-color);
         form{
-            margin-left:pxToRem(30);
-            margin-right:pxToRem(30);
-            padding-right:pxToRem(30);
-            padding-left:pxToRem(30);
-            border-radius:pxToRem(66);
-            border:pxToRem(2) solid $theme-color;
-            height:pxToRem(66);
+            margin-left:.3rem;
+            margin-right:.3rem;
+            padding-right:.3rem;
+            padding-left:.3rem;
+            border-radius:.66rem;
+            border:.02rem solid $theme-color;
+            height:.66rem;
             overflow:hidden;
             .icon-search{
                 @include bg-image('../img/icon-search');
                 @include bg-size(cover);
-                width:pxToRem(48);
-                height:pxToRem(48);
+                width:.48rem;
+                height:.48rem;
             }
             #search{
-                margin-left:pxToRem(10);
-                font-size:pxToRem(30);
+                margin-left:.1rem;
+                font-size:.3rem;
             }
         }
     }
 
    .icon-user,.icon-user-list{
-        width: pxToRem(58);
-        height: pxToRem(58);
+        width: .58rem;
+        height: .58rem;
         @include bg-size(cover);
    }
    
    .icon-user{
        .news{
            position:absolute;
-           width:pxToRem(10);
-           height:pxToRem(10);
+           width:.1rem;
+           height:.1rem;
            border-radius:50%;
            background-color: #e60012;
-           right:pxToRem(-5);
-           top:pxToRem(-5);
+           right:-.05rem;
+           top:-.05rem;
        }
        position:relative;
        @include bg-image('../img/icon-user');

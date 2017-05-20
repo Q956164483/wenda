@@ -21,9 +21,10 @@ html,body{
   }
 }
 body {
-  @include font-dpr(30px);
+  // @include font-dpr(30px);
   width: 100%;
   overflow-x: hidden;
+  font-size:.3rem;
 }
 input{
   border:none;
@@ -41,11 +42,17 @@ li{list-style: none;}
 .box-f1{position:relative;-webkit-box-flex: 1;box-flex: 1;}
 .box-ac{-webkit-box-align:center;box-align:center;}
 .box-pc{-webkit-box-pack:center;box-pack:center;}
+.box-pe{webkit-box-pack:end;box-pack:end;}
+.box-pj{-webkit-box-pack:justify;box-pack:justify;}
 .box-ver{-webkit-box-orient:vertical;box-orient:vertical;}
 .box-rev {-webkit-box-direction:reverse;box-direction:reverse;}
+.box-fh{width:100%;}
 .hide{display: none !important;}
 /*浮动+清除浮动*/
 .fr{float: right} .fl{float: left}
 .clear:after{content:'';display:block;clear: both}
 /*文字超出显示省略号*/
 .ellipsis{overflow: hidden;white-space: nowrap; text-overflow: ellipsis}
+.tx-c{
+  text-align: center;
+}

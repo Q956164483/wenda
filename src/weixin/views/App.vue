@@ -1,7 +1,7 @@
 <template>
   <div class="root">
     <!-- header用于开发时模拟页面高度，手机上打开时请删掉 -->
-    <header style="height:130px;background:#eee;position:fixed;top:0;width: 100%;z-index: 999;"></header>
+    <!--<header style="height:130px;background:#eee;position:fixed;top:0;width: 100%;z-index: 999;"></header>-->
     <div class="container">
       <router-view></router-view>
     </div>
