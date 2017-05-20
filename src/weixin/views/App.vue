@@ -9,15 +9,13 @@
 </template>
 <script type="text/javascript">
 import '../font/common/style.css'
-import '../font/user/style.css'
-import '../font/icon/iconfont.css'
 import '../css/common.scss'
 import '../css/mint-ui.scss'
 
 export default {}
 </script>
 
-<style scoped>
+<style>
 /*用于开发时模拟页面高度，手机上打开时请删掉*/
   .container {margin-top:130px;}
 </style>

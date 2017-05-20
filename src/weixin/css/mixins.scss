@@ -56,11 +56,12 @@
 
 @mixin btn($width,$height,$fsize,$radius) {
   display: inline-block;
-  @include font-dpr($fsize);
+  font-size: $fsize;
   width: $width;
   height: $height;
   line-height: $height;
   text-align: center;
   border: 1px solid $theme-color;
   border-radius: $radius;
+  text-decoration: none;
 }
