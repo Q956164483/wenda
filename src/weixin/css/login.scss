@@ -2,6 +2,7 @@
 @import "./color.scss";
 
 .login {
+  padding-bottom: 1rem;
   .logo {
     text-align: center;
     img.logo {
@@ -55,10 +56,10 @@
       display: block;
       margin: pxToRem(86) auto pxToRem(58);
 
-      &:hover {
-        color: #fff;
-        background-color: $theme-color;
-      }
+      // &:hover {
+      //   color: #fff;
+      //   background-color: $theme-color;
+      // }
     }
     //选择其他登录箭头
     .otherLogin {
