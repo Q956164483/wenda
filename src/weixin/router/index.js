@@ -2,6 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '../views/home.vue'
 import topicList from '../views/topicList.vue'
+import topicCreate from '../views/topicCreate.vue'
+import topicDetail from '../views/topicDetail.vue'
 import Login from '../views/login.vue'
 import Register from '../views/register.vue'
 
@@ -16,6 +18,14 @@ export default new Router({
         {
           path: '/',
           component: topicList
+        },
+        {
+          path: '/topicDetail',
+          component: topicDetail
+        },
+        {
+          path: '/topicCreate',
+          component: topicCreate
         }
       ]
     },
