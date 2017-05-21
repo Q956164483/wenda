@@ -32,9 +32,9 @@
                     <div class="box box-ac box-pc box-f1 box-fh status">
                         进行中...
                     </div>
-                    <div class="box box-ac box-f1 box-fh zan">
+                    <div class="box box-ac box-f1 box-fh collect">
                         <div class="box-f1"></div>
-                        <div class="icon-zan-act"></div>
+                        <div class="icon-collect-act"></div>
                         <div class="num">2099</div>
                     </div>
                 </div>
@@ -71,7 +71,7 @@ export default {
       this.topicList.push(0)
     },
     openDetail (item) {
-      alert('111')
+      // alert('111')
       this.$router.push('../topicDetail')
     }
   }
@@ -113,7 +113,7 @@ export default {
         }
     }
     .topic-list{
-        margin-top:.72rem;
+        margin-top:1.84rem;
         padding-bottom:1.1rem;
     }
     .topic-item{
@@ -150,8 +150,8 @@ export default {
             }
             
         }
-        .zan{
-            .icon-zan-act{
+        .collect{
+            .icon-collect-act{
                 @include bg-image('../img/icon-zan-act');
                 @include bg-size(cover);
                 width:.34rem;

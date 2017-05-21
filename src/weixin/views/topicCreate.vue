@@ -138,38 +138,12 @@ export default {
 <style lang="scss" scoped>
     @import '../css/color.scss';
     @import '../css/mixins.scss';
-    .arrow{
-        width: pxToRem(30);
-        height: pxToRem(16);
-        @include bg-size(cover);
-        margin-left:pxToRem(30);
-    }
-    .icon-arrow-bot{
-        @include bg-image('../img/icon-arrow-bot');
-    }
-    .tab{
-        height:.72rem;
-        position:fixed !important;
-        top:1.11rem;
-        width:100%;
-        background-color:$theme-bg;
-        z-index:1000;
-        @include border-1px($border-color);
-        .tab-item{
-            border-right:2px solid $theme-color;
-            &:last-child{
-                border:0;
-            }
-            &.act{
-                color:$theme-color;
-                .icon-arrow-bot{
-                    @include bg-image('../img/icon-arrow-top-act');
-                }
-            }
-        }
+    .path{
+        position:fixed;
+
     }
     .topic-list{
-        margin-top:.72rem;
+        padding-top:2rem;
         padding-bottom:1rem;
     }
     .topic-item{
