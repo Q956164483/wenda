@@ -15,7 +15,7 @@
             </div>
         </div>
         <div class="box box-ver topic-list">
-            <div class="box topic-item box-ver" style="background-image:url(https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1495298744871&di=4e64a4d714992005e68cf647a95de613&imgtype=0&src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F6%2F578855a8e41e1.jpg)" >
+            <div v-for="item in topicList" @click="openDetail(item)" class="box topic-item box-ver" style="background-image:url(https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1495298744871&di=4e64a4d714992005e68cf647a95de613&imgtype=0&src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F6%2F578855a8e41e1.jpg)" >
                 <div class="create-user box box-ac">
                     <div class="icon-head"></div>
                     <div class="name ellipsis box-f1">巴拉巴拉</div>
@@ -32,88 +32,16 @@
                     <div class="box box-ac box-pc box-f1 box-fh status">
                         进行中...
                     </div>
-                    <div class="box box-ac box-f1 box-fh zan">
+                    <div class="box box-ac box-f1 box-fh collect">
                         <div class="box-f1"></div>
-                        <div class="icon-zan-act"></div>
-                        <div class="num">2099</div>
-                    </div>
-                </div>
-            </div>
-            <div class="box topic-item box-ver" style="background-image:url(https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1495298744871&di=4e64a4d714992005e68cf647a95de613&imgtype=0&src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F6%2F578855a8e41e1.jpg)" >
-                <div class="create-user box box-ac">
-                    <div class="icon-head"></div>
-                    <div class="name ellipsis box-f1">巴拉巴拉</div>
-                </div>
-                <div class="box-f1"></div>
-                <div class="box-pc box title tx-c">
-                    我是中国地质大学地质系主任， 想问地质专业的任何问题，请来问我吧！
-                </div>
-                <div class="box box-ac">
-                    <div class="create-college box box-ac box-f1 box-fh">
-                        <div class="icon-head"></div>
-                        <div class="name ellipsis box-f1">巴拉巴拉巴拉巴拉巴拉巴拉</div>
-                    </div>
-                    <div class="box box-ac box-pc box-f1 box-fh status">
-                        进行中...
-                    </div>
-                    <div class="box box-ac box-f1 box-fh zan">
-                        <div class="box-f1"></div>
-                        <div class="icon-zan-act"></div>
-                        <div class="num">2099</div>
-                    </div>
-                </div>
-            </div>
-            <div class="box topic-item box-ver" style="background-image:url(https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1495298744871&di=4e64a4d714992005e68cf647a95de613&imgtype=0&src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F6%2F578855a8e41e1.jpg)" >
-                <div class="create-user box box-ac">
-                    <div class="icon-head"></div>
-                    <div class="name ellipsis box-f1">巴拉巴拉</div>
-                </div>
-                <div class="box-f1"></div>
-                <div class="box-pc box title tx-c">
-                    我是中国地质大学地质系主任， 想问地质专业的任何问题，请来问我吧！
-                </div>
-                <div class="box box-ac">
-                    <div class="create-college box box-ac box-f1 box-fh">
-                        <div class="icon-head"></div>
-                        <div class="name ellipsis box-f1">巴拉巴拉巴拉巴拉巴拉巴拉</div>
-                    </div>
-                    <div class="box box-ac box-pc box-f1 box-fh status">
-                        进行中...
-                    </div>
-                    <div class="box box-ac box-f1 box-fh zan">
-                        <div class="box-f1"></div>
-                        <div class="icon-zan-act"></div>
-                        <div class="num">2099</div>
-                    </div>
-                </div>
-            </div>
-            <div class="box topic-item box-ver" style="background-image:url(https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1495298744871&di=4e64a4d714992005e68cf647a95de613&imgtype=0&src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F6%2F578855a8e41e1.jpg)" >
-                <div class="create-user box box-ac">
-                    <div class="icon-head"></div>
-                    <div class="name ellipsis box-f1">巴拉巴拉</div>
-                </div>
-                <div class="box-f1"></div>
-                <div class="box-pc box title tx-c">
-                    我是中国地质大学地质系主任， 想问地质专业的任何问题，请来问我吧！
-                </div>
-                <div class="box box-ac">
-                    <div class="create-college box box-ac box-f1 box-fh">
-                        <div class="icon-head"></div>
-                        <div class="name ellipsis box-f1">巴拉巴拉巴拉巴拉巴拉巴拉</div>
-                    </div>
-                    <div class="box box-ac box-pc box-f1 box-fh status">
-                        进行中...
-                    </div>
-                    <div class="box box-ac box-f1 box-fh zan">
-                        <div class="box-f1"></div>
-                        <div class="icon-zan-act"></div>
+                        <div class="icon-collect-act"></div>
                         <div class="num">2099</div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="topic-create box box-pc box-ac">
+        <div @click="$router.push('../topicCreate')" class="topic-create box box-pc box-ac">
             <div class="icon-create-topic"></div>
             <div class="txt">我要创建话题</div>
         </div>
@@ -121,14 +49,30 @@
 </template>
 
 <script>
+
+// import { InfiniteScroll } from 'mint-ui'
+
 export default {
   name: 'hello',
   components: {
     'v-header': require('../components/header.vue')
   },
+//   mounted () {
+//     this.use(InfiniteScroll)
+//   },
   data () {
     return {
-      actIndex: 0
+      actIndex: 0,
+      topicList: [0, 1, 1, 1, 1, 1]
+    }
+  },
+  methods: {
+    loadMore () {
+      this.topicList.push(0)
+    },
+    openDetail (item) {
+      // alert('111')
+      this.$router.push('../topicDetail')
     }
   }
 }
@@ -169,8 +113,8 @@ export default {
         }
     }
     .topic-list{
-        margin-top:.72rem;
-        padding-bottom:1rem;
+        margin-top:1.84rem;
+        padding-bottom:1.1rem;
     }
     .topic-item{
         margin:.1rem .2rem;
@@ -206,8 +150,8 @@ export default {
             }
             
         }
-        .zan{
-            .icon-zan-act{
+        .collect{
+            .icon-collect-act{
                 @include bg-image('../img/icon-zan-act');
                 @include bg-size(cover);
                 width:.34rem;

@@ -47,8 +47,8 @@ export default {
         form{
             margin-left:.3rem;
             margin-right:.3rem;
-            padding-right:.3rem;
-            padding-left:.3rem;
+            padding-right:.28rem;
+            padding-left:.28rem;
             border-radius:.66rem;
             border:.02rem solid $theme-color;
             height:.66rem;
