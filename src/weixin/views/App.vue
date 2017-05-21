@@ -17,5 +17,5 @@ export default {}
 
 <style>
 /*用于开发时模拟页面高度，手机上打开时请删掉*/
-  .container {margin-top:130px;}
+  /*.container {margin-top:130px;}*/
 </style>
