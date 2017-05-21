@@ -7,14 +7,23 @@ html,body{
   -webkit-user-select: none;
   user-select: none;
   -webkit-font-smoothing: antialiased;
+  overflow: auto;
+   -webkit-overflow-scrolling : touch;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
   tap-highlight-color: transparent;
 //   color: #333;
 //   background: #F4F4F4;
+  height:100%;
+  .root {
+    position: relative;
+    min-height: 100%;
+  }
 }
 body {
-  //@include font-dpr(30px);
+  // @include font-dpr(30px);
+  width: 100%;
+  overflow-x: hidden;
   font-size:.3rem;
 }
 input{
@@ -23,7 +32,8 @@ input{
 }
 a{
     color: $theme-color;
-    text-decoration: none;}
+    text-decoration: none;
+}
 li{list-style: none;}
 #app {-webkit-font-smoothing: antialiased;}
 

@@ -26,7 +26,9 @@
         <a href="javascript:void(0);" class="register fl" @click="$router.push('/register')">注册账号</a>
         <a href="javascript:void(0);" class="forgetPwd fr" @click="$router.push('/forgetPwd')">忘记密码？</a>
       </div>
+      <!-- 登录按钮 -->
       <a href="javascript:void(0);" class="loginBtn" @click="login">登&nbsp;&nbsp;录</a>
+
       <div class="otherLogin" @click="openOther">
         <img :src="iconArrow" class="arrow-up">
         <div class="text">其他账号登录</div>
@@ -58,7 +60,6 @@
 <script type="text/javascript">
 import pathNav from '../components/path.vue'
 import {Indicator} from 'mint-ui'
-import '../css/login.scss'
 
 export default {
   components: {
@@ -97,7 +98,7 @@ export default {
 
       // 传去后台，开启loading
       Indicator.open({
-        text: '加载中...',
+        text: 'loading...',
         spinnerType: 'snake'
       })
       // 根据反馈改nameCorrect，passCorrect
@@ -113,4 +114,6 @@ export default {
   }
 }
 </script>
+
+<style src="../css/login.scss" lang="scss" scoped></style>
 
