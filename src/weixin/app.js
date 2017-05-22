@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import VueResource from 'vue-resource'
 import App from './views/App.vue'
 import router from './router'
 import store from './vuex/store'
@@ -7,7 +8,7 @@ import { setDPR, remChange } from './utils/remChange'
 // 可以在页面单个组件引入
 // import MintUI from 'mint-ui'
 // Vue.use(MintUI)
-
+Vue.use(VueResource)
 setDPR()
 remChange()
 Vue.config.productionTip = false
