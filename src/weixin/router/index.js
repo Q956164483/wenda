@@ -6,6 +6,9 @@ import topicCreate from '../views/topicCreate.vue'
 import topicDetail from '../views/topicDetail.vue'
 import Login from '../views/login.vue'
 import Register from '../views/register.vue'
+import ForgetPwd from '../views/forgetPwd.vue'
+import Updatepwd from '../views/updatePwd.vue'
+import Userinfo from '../views/userinfo.vue'
 
 Vue.use(Router)
 
@@ -36,15 +39,18 @@ export default new Router({
     {
       path: '/register',
       component: Register
+    },
+    {
+      path: '/forgetpwd',
+      component: ForgetPwd
+    },
+    {
+      path: '/updatepwd',
+      component: Updatepwd
+    },
+    {
+      path: '/userinfo',
+      component: Userinfo
     }
-    // ,
-    // {
-    //   path: '/userinfo',
-    //   component: Userinfo
-    // },
-    // {
-    //   path: '/forgetPwd',
-    //   component: ForgetPwd
-    // }
   ]
 })

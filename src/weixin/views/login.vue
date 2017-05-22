@@ -26,7 +26,7 @@
       </div>
       <div class="otherOpt clear">
         <a href="javascript:void(0);" class="register fl" @click="$router.push('/register')">注册账号</a>
-        <a href="javascript:void(0);" class="forgetPwd fr" @click="$router.push('/forgetPwd')">忘记密码？</a>
+        <a href="javascript:void(0);" class="forgetPwd fr" @click="$router.push('/forgetpwd')">忘记密码？</a>
       </div>
       <!-- 登录按钮 -->
       <a href="javascript:void(0);" class="loginBtn" @click="login">登&nbsp;&nbsp;录</a>

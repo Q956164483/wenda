@@ -1,6 +1,6 @@
 <template>
   <div class="register">
-    <path-nav :current="'注册账号'">
+    <path-nav :current="'忘记密码'">
       <a href="javascript:void(0);" @click="$router.push('/userinfo')">个人信息</a>
       &gt;
     </path-nav>
@@ -13,18 +13,17 @@
       </div>
       <div class="box">
         <input type="text" placeholder="请输入您的验证码" v-model="yanzheng" class="box box-f1 yanzheng">
-        <span class="yanzhengBtn grey" @click="getCode" v-if="isSend">{{ count + 's' }}</span>
-        <span class="yanzhengBtn" @click="getCode" v-else>获取验证码</span>
+        <span class="yanzhengBtn">获取验证码</span>
       </div>
       <div class="box">
-        <input type="password" placeholder="请输入您的账号密码" v-model="password">
+        <input type="password" placeholder="请输入您的新密码" v-model="password">
       </div>
       <div class="box">
-        <input type="password" placeholder="请再次输入您的账号密码" v-model="password2">
+        <input type="password" placeholder="请再次输入您的新密码" v-model="password2">
       </div>
       <div class="error" v-show="isSubmit">{{error}}</div>
-      <!-- 注册按钮 -->
-      <a href="javascript:void(0);" class="regBtn" @click="register">注&nbsp;&nbsp;册</a>
+      <!-- 找回密码 -->
+      <a href="javascript:void(0);" class="regBtn retrieve" @click="retrieve">确&nbsp;&nbsp;定</a>
     </div>
   </div>
 </template>
@@ -44,8 +43,6 @@ export default {
       yanzheng: '',
       password: '',
       password2: '',
-      isSend: false,
-      count: 120,
       isSubmit: false,
       error: '错误提示'
       // nameCorrect: true,
@@ -55,25 +52,7 @@ export default {
     }
   },
   methods: {
-    countdown() {
-      let that = this
-      this.isSend = true
-      let counting = setInterval(function() {
-        that.count--
-        if (that.count <= 0) {
-          that.isSend = false
-          clearInterval(counting)
-          that.count = 120
-        }
-      }, 1000)
-    },
-    getCode() {
-      this.countdown()
-      this.$http.get().then((res) => {
-
-      })
-    },
-    register() {
+    retrieve() {
       // 前端判断用户名密码
 
       // 传去后台，开启loading

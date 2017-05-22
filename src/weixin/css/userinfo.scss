@@ -1,0 +1,78 @@
+@import "./mixins.scss";
+@import "./color.scss";
+
+.userinfo {
+  padding-bottom: 2rem;
+  .main {
+    padding:  0 .3rem;
+    .list {
+      display: block;
+      padding: .2rem 0;
+      font-size: .28rem;
+      color:$txt-color2;
+      border-bottom: 1px solid $border-color;
+      &.username {
+        padding: 0;
+        height: 1.2rem;
+        line-height: 1.2rem;
+        .iconimg {
+          .icon {
+            top: .45rem;
+          }
+        }
+        .avatar {
+          margin-top: .2rem;
+          margin-right: .2rem;
+        }
+        .arrow {
+          margin-top: .48rem;
+        }
+      }
+      .iconimg {
+        width: .5rem;
+        position: relative;
+        .icon {
+          position: absolute;
+          top: .07rem;
+          left: 50%;
+          transform: translateX(-50%);
+        }
+      }
+      .text {
+        margin-left: .66rem;
+      }
+      .dot {
+        display: inline-block;
+        width: .1rem;
+        height: .1rem;
+        vertical-align: top;
+        background-color: #f00;
+        border-radius: 50%;
+      }
+      .avatar {
+        width: .8rem;
+        height: .8rem;
+        border-radius: 50%;
+        background-color: #aaa;
+      }
+      .arrow {
+        width: .16rem;
+        height: .26rem;
+        margin-top: .08rem;
+      }
+    }
+  }
+  .regBtn {
+    @include btn(pxToRem(500),pxToRem(80),0.36rem,pxToRem(80));
+    display: block;
+    position: absolute;
+    bottom: 0.7rem;
+    left: 50%;
+    transform: translateX(-50%);
+
+    // &:hover {
+    //   color: #fff;
+    //   background-color: $theme-color;
+    // }
+  }
+}
