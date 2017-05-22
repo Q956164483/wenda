@@ -1,7 +1,7 @@
 <template>
     <div class="box box-ver">
         <div class="box box-ac tab">
-            <div :class="actIndex==0?'act':''" class="tab-item box box-f1 box-fh box-ac box-pc">
+            <div @click="" :class="actIndex==0?'act':''" class="tab-item box box-f1 box-fh box-ac box-pc">
                 <div>高校</div>
                 <div class="arrow icon-arrow-bot icon-arrow-top-act"></div>
             </div>
@@ -40,7 +40,6 @@
                 </div>
             </div>
         </div>
-
         <div @click="$router.push('../topicCreate')" class="topic-create box box-pc box-ac">
             <div class="icon-create-topic"></div>
             <div class="txt">我要创建话题</div>
@@ -83,8 +82,8 @@ export default {
     @import '../css/color.scss';
     @import '../css/mixins.scss';
     .arrow{
-        width: pxToRem(30);
-        height: pxToRem(16);
+        width: .30rem;
+        height: .16rem;
         @include bg-size(cover);
         margin-left:pxToRem(30);
     }
@@ -97,7 +96,7 @@ export default {
         top:1.11rem;
         width:100%;
         background-color:$theme-bg;
-        z-index:1000;
+        z-index:10;
         @include border-1px($border-color);
         .tab-item{
             border-right:2px solid $theme-color;
@@ -152,7 +151,7 @@ export default {
         }
         .collect{
             .icon-collect-act{
-                @include bg-image('../img/icon-zan-act');
+                @include bg-image('../img/icon-collect-act');
                 @include bg-size(cover);
                 width:.34rem;
                 height:.32rem;
@@ -176,6 +175,7 @@ export default {
     }
     .icon-create-topic{
         @include bg-image('../img/icon-create-topic');
+        @include bg-size(cover);
         width:.48rem;
         height:.48rem;
     }
