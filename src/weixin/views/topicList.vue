@@ -1,17 +1,23 @@
 <template>
     <div class="box box-ver">
         <div class="box box-ac tab">
-            <div @click="" :class="actIndex==0?'act':''" class="tab-item box box-f1 box-fh box-ac box-pc">
+            <div @click="showTabList(0)" :class="actIndex==0?'act':''" class="tab-item box box-f1 box-fh box-ac box-pc">
                 <div>高校</div>
                 <div class="arrow icon-arrow-bot icon-arrow-top-act"></div>
             </div>
-            <div :class="actIndex==1?'act':''" class="tab-item box box-f1 box-fh box-ac box-pc">
+            <div @click="showTabList(1)" :class="actIndex==1?'act':''" class="tab-item box box-f1 box-fh box-ac box-pc">
                 <div>院系</div>
                 <div class="arrow icon-arrow-bot icon-arrow-top-act"></div>
             </div>
-            <div :class="actIndex==2?'act':''" class="tab-item box box-f1 box-fh box-ac box-pc">
+            <div @click="showTabList(2)" :class="actIndex==2?'act':''" class="tab-item box box-f1 box-fh box-ac box-pc">
                 <div>专业</div>
                 <div class="arrow icon-arrow-bot icon-arrow-top-act"></div>
+            </div>
+        </div>
+        <div v-if="showTabListFlag" class="tab-list-container">
+            <div class="tab-list box box-ver">
+                <div @click="hideTabList()" class="list-item box box-ac">1</div>
+                <div class="list-item box box-ac">2</div>
             </div>
         </div>
         <div class="box box-ver topic-list">
@@ -61,8 +67,9 @@ export default {
 //   },
   data () {
     return {
-      actIndex: 0,
-      topicList: [0, 1, 1, 1, 1, 1]
+      actIndex: -1,
+      topicList: [0, 1, 1, 1, 1, 1],
+      showTabListFlag: false
     }
   },
   methods: {
@@ -72,6 +79,14 @@ export default {
     openDetail (item) {
       // alert('111')
       this.$router.push('../topicDetail')
+    },
+    showTabList (index) {
+      this.actIndex = index
+      this.showTabListFlag = true
+    },
+    hideTabList () {
+      this.actIndex = 9
+      this.showTabListFlag = false
     }
   }
 }
@@ -108,6 +123,27 @@ export default {
                 .icon-arrow-bot{
                     @include bg-image('../img/icon-arrow-top-act');
                 }
+            }
+        }
+    }
+    .tab-list-container{
+
+        position:fixed;
+        z-index:20;
+        top:1.85rem; 
+        width:100%;
+        height:calc(100% - 1.11rem - .74rem);
+        background-color:rgba(0,0,0,.3);
+        .tab-list{
+            padding-left:.1rem;
+            padding-right:.1rem;
+            background-color:#FFF;
+            .list-item{
+                height:.7rem;
+                padding-left:.27rem;
+                padding-right:.27rem;
+                border-bottom:.01rem solid $border-color;
+                color:#666;
             }
         }
     }

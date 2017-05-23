@@ -128,6 +128,7 @@ export default {
     }
   },
   methods: {
+
   },
   watch: {
   }
@@ -139,7 +140,7 @@ export default {
     @import '../css/color.scss';
     @import '../css/mixins.scss';
     .path{
-        //position:fixed;
+        position:fixed;
         top:1.1rem !important;
         z-index:20;
     }
