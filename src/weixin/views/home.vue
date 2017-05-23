@@ -1,7 +1,9 @@
 <template>
   <div class="box box-ver">
     <v-header></v-header>
-    <router-view></router-view>
+    <transition name="back">
+      <router-view></router-view>
+    </transition>
   </div>
     
 </template>
@@ -15,6 +17,6 @@ export default {
 <style lang="scss" scoped>
     @import '../css/color.scss';
     @import '../css/mixins.scss';
-
+    
 </style>
 

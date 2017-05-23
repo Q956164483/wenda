@@ -4,6 +4,7 @@ import Home from '../views/home.vue'
 import topicList from '../views/topicList.vue'
 import topicCreate from '../views/topicCreate.vue'
 import topicDetail from '../views/topicDetail.vue'
+import commentsList from '../views/commentsList.vue'
 import Login from '../views/login.vue'
 import Register from '../views/register.vue'
 import ForgetPwd from '../views/forgetPwd.vue'
@@ -25,6 +26,10 @@ export default new Router({
         {
           path: '/topicDetail',
           component: topicDetail
+        },
+        {
+          path: '/commentsList',
+          component: commentsList
         },
         {
           path: '/topicCreate',

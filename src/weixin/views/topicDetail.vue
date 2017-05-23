@@ -1,5 +1,5 @@
 <template>
-    <div class="box box-ver">
+    <div class="box box-ver" >
         <nav-path :current="'XXX坐席'">
             <a href="javascript:;" @click="$router.push('./')">XX大学</a>
             &gt;
@@ -66,7 +66,7 @@
                                 </div>
                                 <div class="time">2015-05-06</div>
                             </div>
-                            <div class="box box-ac">
+                            <div @click="showReply()" class="box box-ac">
                                 <div class="icon-comment"></div>
                                 <div class="num">6</div>
                             </div>
@@ -96,14 +96,29 @@
                 </div>
             </div>
         </div>
-        
-
+        <div @click="showCommentFlag = false" v-if="showCommentFlag" class="comment-input-bg box box-fh box-ver">
+            <div class="box-f1"></div>
+            <div @click="$event.stopPropagation()" class="comment-area box box-ver">
+                <div class="comment-input box box-ver">
+                    <textarea v-model="commentWord" class="box box-f1" maxlength="140" placeholder="新颖、大胆、专业、有趣的问题，更有机会获得回复 哦!赶快提问吧！"></textarea>
+                    <div class="box">
+                        <div class="box-f1"></div>
+                        <div class="tips"><span v-text="commentWord.length"></span>/140</div>
+                    </div>
+                </div>
+                <div class="box">
+                    <div @click="showCommentFlag = false" class="icon-close"></div>
+                    <div class="box-f1"></div>
+                    <div class="icon-sure"></div>
+                </div>
+            </div>
+        </div>
         <div class="foot-bar box box-fh box-ac">
             <div class="box box-f1 box-fh box-ac box-pc foot-item">
                 <div class="icon-share"></div>
                 <div class="txt">分享</div>
             </div>
-            <div class="box box-f1 box-fh box-ac box-pc foot-item">
+            <div @click="showComment()" class="box box-f1 box-fh box-ac box-pc foot-item">
                 <div class="icon-ask"></div>
                 <div class="txt">我要提问</div>
             </div>
@@ -124,11 +139,18 @@ export default {
   data () {
     return {
       showDesc: true,
-      comments: [1]
+      showCommentFlag: false,
+      comments: [1],
+      commentWord: ''
     }
   },
   methods: {
-
+    showComment () {
+      this.showCommentFlag = true
+    },
+    showReply () {
+      this.$router.push('./commentsList')
+    }
   },
   watch: {
   }
@@ -304,19 +326,18 @@ export default {
         height:.38rem;
         @include bg-size(cover);
     }
-    // .icon-hot{
-    //     @include bg-image('../img/icon-hot');
-    // }
-    .icon-new{
-        @include bg-image('../img/icon-new');
-    }
-    
     .tab-item{
         margin:0 .3rem;
         font-size:.28rem;
         .txt{
             margin-left:.1rem;
         }
+    }
+    // .icon-hot{
+    //     @include bg-image('../img/icon-hot');
+    // }
+    .icon-new{
+        @include bg-image('../img/icon-new');
     }
     .tab-item.act{
         .icon-hot{
@@ -359,6 +380,46 @@ export default {
         }
         .txt{
             margin-left:.22rem;
+        }
+    }
+    /*评论输入框*/
+    .comment-input-bg{
+        position:fixed;
+        z-index:1100;
+        left:0;
+        top:0;
+        width:100%;
+        height:100%;
+        background-color: $mask-bg;
+        .comment-area{
+            background-color:#FFF;
+            padding:.3rem;
+            padding-top:.1rem;
+            .comment-input{
+                padding:.2rem;
+                border:.01rem solid $border-color;
+                border-radius:.2rem;
+                textarea{
+                  height:1.37rem;
+                  font-size:.28rem;
+                }
+                .tips{
+                    color:#686868;
+                    font-size:.24rem;
+                }
+            }
+            .icon-close,.icon-sure{
+                margin-top:.2rem;
+                width:.52rem;
+                height:.52rem;
+                @include bg-size(cover);
+            }
+            .icon-close{
+                @include bg-image('../img/icon-close');
+            }
+            .icon-sure{
+                @include bg-image('../img/icon-sure');
+            }
         }
     }
 </style>
