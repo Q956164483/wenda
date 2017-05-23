@@ -5,9 +5,35 @@
         </div>
         <form class="box box-f1 box-ac" action="javascript:return true;" >
             <div class="icon-search"></div>
-            <input id="search" type="search" class="box box-f1" placeholder="请输入您要搜索的话题" />
+            <input v-model="searchWord" id="search"  type="search" class="box box-f1"  placeholder="请输入您要搜索的话题" />
         </form>
         <div class="icon-user-list " @click="checkLogin('./userList')">
+        </div>
+        <div :class="isShowSearch == true ? '':'hide'" class="search-container box-ver">
+            <div class="search-list box box-ver">
+                <div @click="isShowSearch = false" class="search-item box box-ac">
+                    <div class="icon-search"></div>
+                    <div class="text box-f1 ellipsis">风刀霜剑</div>
+                </div>
+                <div @click="isShowSearch = false" class="search-item box box-ac">
+                    <div class="icon-search"></div>
+                    <div class="text box-f1 ellipsis">风刀霜剑</div>
+                </div>
+                <div class="search-item box box-ac">
+                    <div class="icon-search"></div>
+                    <div class="text box-f1 ellipsis">风刀霜剑</div>
+                </div>
+            </div>
+            <div class="search-history">
+                <div class="box box-ac">
+                    <div class="icon-history"></div>
+                    <div>历史搜索记录</div>
+                </div>
+                <div class="list box box-ver">
+                    <div class="history-item">风刀霜剑</div>
+                    <div class="history-item">风刀霜剑</div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -16,7 +42,10 @@ export default {
   data() {
     return {
       isLogin: false,
-      hasNews: true
+      hasNews: true,
+      searchWord: '',
+      curPage: 1,
+      isShowSearch: false
     }
   },
   methods: {
@@ -28,12 +57,82 @@ export default {
         self.$router.push(router)
       }
     }
+  },
+  watch: {
+    searchWord() {
+      if (this.searchWord.length > 0) {
+        this.isShowSearch = true
+      } else {
+        this.isShowSearch = false
+      }
+      var state = this.$store.state
+      console.log(state.host)
+      this.$http.get(state.host + state.baseUrl + '/topic/findTopiclList?title=' + this.searchWord + '&curPage=' + this.curPage + '&pageSize=20')
+        .then(res => {
+          var data = res.data.data
+          this.ajaxFlag = false
+          if (!data || data.length === 0) {
+            this.endFlag = true
+          } else {
+            console.log(data)
+            // this.CHANGE_SUBCONDATA(state.subConData.concat(res.data.data))
+          }
+        }, err => {
+          console.log(err)
+        })
+    }
   }
 }
 </script>
 <style lang="scss" scoped>
     @import '../css/color.scss';
     @import '../css/mixins.scss';
+    .search-container{
+        position:fixed !important;
+        background-color:rgba(0,0,0,.3);
+        z-index:1001;
+        width:100%;
+        top:1.1rem;
+        left:0;
+        height:-webkit-calc(100% - 1.1rem); 
+        height: calc(100% - 1.1rem);
+        .search-list{
+            padding-left:1.2rem;
+            background-color:#FFF;
+            padding-top:.25rem;
+            padding-bottom:.25rem;
+            .search-item{
+                height:.52rem;
+                .icon-search{
+                    @include bg-image('../img/icon-search1');
+                    @include bg-size(cover);
+                    width:.3rem;
+                    height:.3rem;
+                    margin-right:.2rem;
+                }
+            }
+        }
+        .search-history{
+            background-color:#FFF;
+            padding:.25rem;
+            color:$theme-color;
+            .icon-history{
+                width:.26rem;
+                height:.26rem;
+                margin-right:.1rem;
+                @include bg-image('../img/icon-history');
+                @include bg-size(cover);
+            }
+            .list{
+                color:#666;
+                padding-left:.3rem;
+                .history-item{
+                    font-size:.24rem;
+                    padding-top:.1rem;
+                }
+            }
+        }
+    }
     .header{
         position:fixed !important;
         background-color:$theme-bg;
