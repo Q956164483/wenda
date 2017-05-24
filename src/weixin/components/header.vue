@@ -9,24 +9,16 @@
         </form>
         <div class="icon-user-list " @click="checkLogin('./userList')">
         </div>
-        <div :class="isShowSearch == true ? '':'hide'" class="search-container box-ver">
+        <div :class="searchWord.length>0 ? '':'hide'" class="search-container box-ver">
             <div class="search-list box box-ver">
-                <div @click="isShowSearch = false" class="search-item box box-ac">
+                <div v-if="searchList.length>0" v-for="(item, index) in searchList" @click="goTopicDetail(item)" class="search-item box box-ac">
                     <div class="icon-search"></div>
-                    <div class="text box-f1 ellipsis">风刀霜剑</div>
-                </div>
-                <div @click="isShowSearch = false" class="search-item box box-ac">
-                    <div class="icon-search"></div>
-                    <div class="text box-f1 ellipsis">风刀霜剑</div>
-                </div>
-                <div class="search-item box box-ac">
-                    <div class="icon-search"></div>
-                    <div class="text box-f1 ellipsis">风刀霜剑</div>
+                    <div class="text box-f1 ellipsis">{{item.title}}</div>
                 </div>
             </div>
-            <div class="search-none">
-                <div class="box box-f1"></div>
-                <div class="topic-create"></div>
+            <div v-if="searchList.length===0" class="search-none box box-ac">
+                <div class="box box-f1">抱歉！没有搜索到您要找的话题。</div>
+                <div class="topic-create box box-ac box-pc">创建话题</div>
             </div>
             <div class="search-history">
                 <div class="box box-ac">
@@ -45,46 +37,45 @@
 export default {
   data() {
     return {
-      isLogin: false,
       hasNews: true,
       searchWord: '',
-      curPage: 1,
-      isShowSearch: false
+      searchList: []
     }
   },
   methods: {
     checkLogin(router) {
       var self = this
-      if (!self.isLogin) {
+      var state = self.$store.state
+      if (!state.isLogin) {
         self.$router.push('./login')
       } else {
         self.$router.push(router)
       }
+    },
+    goTopicDetail (item) {
+      var self = this
+      self.checkLogin('/topicDetail?topicId=' + item.id)
     }
   },
   watch: {
     searchWord() {
-      if (this.searchWord.length > 0) {
-        this.isShowSearch = true
-      } else {
-        this.isShowSearch = false
-      }
-      var state = this.$store.state
-      // console.log(state.host)
-      this.$store.dispatch('isLoading', true)
-      this.$http.get(state.host + state.baseUrl + '/topic/findTopicList?title=' + this.searchWord + '&curPage=' + this.curPage + '&pageSize=20')
-        .then(res => {
-          var data = res.data.data
-          this.ajaxFlag = false
-          if (!data || data.length === 0) {
-            this.endFlag = true
-          } else {
-            console.log(data)
-            // this.CHANGE_SUBCONDATA(state.subConData.concat(res.data.data))
-          }
-        }, err => {
-          console.log(err)
-        })
+      var self = this
+      var state = self.$store.state
+      if (self.searchWord.length === 0) return false
+      var url = state.host + state.baseUrl + '/topic/findTopicList?sCode=' + state.sCode + '&departmentId=' + state.departmentId + '&majorId' + state.majorId + '&title=' + this.searchWord + '&curPage=1&pageSize=5'
+      this.$http({
+        method: 'get',
+        url: url
+      }).then(res => {
+        var data = res.data.data.data
+        if (!data || data.length === 0) {
+        } else {
+          console.log('searchList>>>>>', data)
+          self.searchList = data
+        }
+      }, err => {
+        console.log(err)
+      })
     }
   }
 }
@@ -115,6 +106,16 @@ export default {
                     height:.3rem;
                     margin-right:.2rem;
                 }
+            }
+        }
+        .search-none{
+            padding:.3rem;
+            font-size:.28rem;
+            color:#686868;
+            .topic-create{
+                width:1.37rem;
+                height:.5rem;
+                background-color:#f19149;
             }
         }
         .search-history{
