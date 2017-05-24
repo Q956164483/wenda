@@ -27,8 +27,9 @@ export default {
 /*用于开发时模拟页面高度，手机上打开时请删掉*/
   /*.container {margin-top:130px;}*/
   .loading{
+    font-size:1rem;
     position:fixed;
-    top:50%;
+    bottom:10%;
     left:50%;
     z-index:9999;
   }

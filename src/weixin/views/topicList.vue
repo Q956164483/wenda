@@ -30,7 +30,7 @@
             </div>
         </div>
         <div class="box box-ver topic-list">
-            <div v-for="item in topicList" @click="openDetail(item)" :style="{'background-image':'url('+$store.state.host+item.imgUrl+')'}"  class="box topic-item box-ver" >
+            <div v-for="item in topicList" @click="openDetail(item)" :style="{'background-image':'url('+$store.state.hostImg+item.imgUrl+')'}"  class="box topic-item box-ver" >
                 <div class="create-user box box-ac">
                     <div class="icon-head"></div>
                     <div class="name ellipsis box-f1">{{item.userName}}</div>
@@ -103,6 +103,10 @@ export default {
     getSchoolList () {
       var self = this
       var state = self.$store.state
+      if (self.actTabIndex === 0) {
+        self.actTabIndex = -1
+        return false
+      }
       this.$http.get(state.host + state.baseUrl + '/common/findSchoolList')
         .then(res => {
           console.log(res)
@@ -121,6 +125,10 @@ export default {
     getDepartmentList () {
       var self = this
       var state = self.$store.state
+      if (self.actTabIndex === 1) {
+        self.actTabIndex = -1
+        return false
+      }
       this.$http.get(state.host + state.baseUrl + '/common/findDepartmentList?sCode=' + state.sCode)
         .then(res => {
           console.log(res)
@@ -139,6 +147,10 @@ export default {
     getMajorList () {
       var self = this
       var state = self.$store.state
+      if (self.actTabIndex === 2) {
+        self.actTabIndex = -1
+        return false
+      }
       this.$http.get(state.host + state.baseUrl + '/common/findMajorList?departId=' + state.departmentId)
         .then(res => {
           console.log(res)
@@ -226,6 +238,8 @@ export default {
         width:100%;
         height:calc(100% - 1.11rem - .74rem);
         background-color:rgba(0,0,0,.3);
+        overflow-y: scroll;
+        -webkit-overflow-scrolling: touch;
         .tab-list{
             padding-left:.1rem;
             padding-right:.1rem;
