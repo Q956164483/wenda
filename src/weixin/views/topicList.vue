@@ -1,39 +1,48 @@
 <template>
     <div class="box box-ver">
         <div class="box box-ac tab">
-            <div @click="showTabList(0)" :class="actIndex==0?'act':''" class="tab-item box box-f1 box-fh box-ac box-pc">
+            <div @click="getSchoolList()" :class="actTabIndex==0?'act':''" class="tab-item box box-f1 box-fh box-ac box-pc">
                 <div>高校</div>
                 <div class="arrow icon-arrow-bot icon-arrow-top-act"></div>
             </div>
-            <div @click="showTabList(1)" :class="actIndex==1?'act':''" class="tab-item box box-f1 box-fh box-ac box-pc">
+            <div @click="getDepartmentList()" :class="actTabIndex==1?'act':''" class="tab-item box box-f1 box-fh box-ac box-pc">
                 <div>院系</div>
                 <div class="arrow icon-arrow-bot icon-arrow-top-act"></div>
             </div>
-            <div @click="showTabList(2)" :class="actIndex==2?'act':''" class="tab-item box box-f1 box-fh box-ac box-pc">
+            <div @click="getMajorList()" :class="actTabIndex==2?'act':''" class="tab-item box box-f1 box-fh box-ac box-pc">
                 <div>专业</div>
                 <div class="arrow icon-arrow-bot icon-arrow-top-act"></div>
             </div>
         </div>
-        <div v-if="showTabListFlag" class="tab-list-container">
-            <div class="tab-list box box-ver">
-                <div @click="hideTabList()" class="list-item box box-ac">1</div>
-                <div class="list-item box box-ac">2</div>
+        <div v-if="actTabIndex === 0" @click="actTabIndex = -1" class="tab-list-container">
+            <div @click="$event.stopPropagation()" class="tab-list box box-ver">
+                <div :class="item.code==$store.state.sCode?'act':''" v-for="(item,index) in schoolList" @click="getTopicList(item.code)" class="list-item box box-ac">{{item.name}}</div>
+            </div>
+        </div>
+        <div v-if="actTabIndex === 1" @click="actTabIndex = -1" class="tab-list-container">
+            <div @click="$event.stopPropagation()" class="tab-list box box-ver">
+                <div :class="item.id==$store.state.departmentId?'act':''" v-for="(item,index) in departmentList" @click="getTopicList(item.id)" class="list-item box box-ac">{{item.name}}</div>
+            </div>
+        </div>
+        <div v-if="actTabIndex === 2" @click="actTabIndex = -1" class="tab-list-container">
+            <div @click="$event.stopPropagation()" class="tab-list box box-ver">
+                <div :class="item.id==$store.state.majorId?'act':''" v-for="(item,index) in majorList" @click="getTopicList(item.id)" class="list-item box box-ac">{{item.name}}</div>
             </div>
         </div>
         <div class="box box-ver topic-list">
-            <div v-for="item in topicList" @click="openDetail(item)" class="box topic-item box-ver" style="background-image:url(https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1495298744871&di=4e64a4d714992005e68cf647a95de613&imgtype=0&src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F6%2F578855a8e41e1.jpg)" >
+            <div v-for="item in topicList" @click="openDetail(item)" :style="{'background-image':'url('+$store.state.host+item.imgUrl+')'}"  class="box topic-item box-ver" >
                 <div class="create-user box box-ac">
                     <div class="icon-head"></div>
-                    <div class="name ellipsis box-f1">巴拉巴拉</div>
+                    <div class="name ellipsis box-f1">{{item.userName}}</div>
                 </div>
                 <div class="box-f1"></div>
                 <div class="box-pc box title tx-c">
-                    我是中国地质大学地质系主任， 想问地质专业的任何问题，请来问我吧！
+                    {{item.title}}
                 </div>
                 <div class="box box-ac">
                     <div class="create-college box box-ac box-f1 box-fh">
                         <div class="icon-head"></div>
-                        <div class="name ellipsis box-f1">巴拉巴拉巴拉巴拉巴拉巴拉</div>
+                        <div class="name ellipsis box-f1">{{}}</div>
                     </div>
                     <div class="box box-ac box-pc box-f1 box-fh status">
                         进行中...
@@ -41,7 +50,7 @@
                     <div class="box box-ac box-f1 box-fh collect">
                         <div class="box-f1"></div>
                         <div class="icon-collect-act"></div>
-                        <div class="num">2099</div>
+                        <div class="num">{{item.subscribeNum}}</div>
                     </div>
                 </div>
             </div>
@@ -54,22 +63,34 @@
 </template>
 
 <script>
-
 // import { InfiniteScroll } from 'mint-ui'
+import {mapGetters} from 'vuex'
 
 export default {
   name: 'hello',
   components: {
     'v-header': require('../components/header.vue')
   },
-//   mounted () {
-//     this.use(InfiniteScroll)
-//   },
+  mounted () {
+    this.getTopicList()
+    console.log(this.sCode)
+  },
+  computed: {
+    // 使用对象展开运算符将 getters 混入 computed 对象中
+    ...mapGetters([
+      'GET_SCODE',
+      'GET_DEPARTMENTID',
+      'GET_MAJORID' // 商家简略信息
+    ])
+  },
   data () {
     return {
-      actIndex: -1,
-      topicList: [0, 1, 1, 1, 1, 1],
-      showTabListFlag: false
+      actTabIndex: -1,
+      schoolList: [],
+      departmentList: [],
+      topicList: [],
+      showTabListFlag: false,
+      curPage: 1
     }
   },
   methods: {
@@ -77,16 +98,88 @@ export default {
       this.topicList.push(0)
     },
     openDetail (item) {
-      // alert('111')
       this.$router.push('../topicDetail')
     },
-    showTabList (index) {
-      this.actIndex = index
-      this.showTabListFlag = true
+    getSchoolList () {
+      var self = this
+      var state = self.$store.state
+      this.$http.get(state.host + state.baseUrl + '/common/findSchoolList')
+        .then(res => {
+          console.log(res)
+          var data = res.data.data
+          if (!data || data.length === 0) {
+            console.log('未找到学校')
+          } else {
+            console.log('suc>>>>', data)
+            self.schoolList = data
+            self.actTabIndex = 0
+          }
+        }, err => {
+          console.log(err)
+        })
     },
-    hideTabList () {
-      this.actIndex = 9
-      this.showTabListFlag = false
+    getDepartmentList () {
+      var self = this
+      var state = self.$store.state
+      this.$http.get(state.host + state.baseUrl + '/common/findDepartmentList?sCode=' + state.sCode)
+        .then(res => {
+          console.log(res)
+          var data = res.data.data
+          if (!data || data.length === 0) {
+            console.log('未找到院系')
+          } else {
+            console.log('suc>>>>', data)
+            self.departmentList = data
+            self.actTabIndex = 1
+          }
+        }, err => {
+          console.log(err)
+        })
+    },
+    getMajorList () {
+      var self = this
+      var state = self.$store.state
+      this.$http.get(state.host + state.baseUrl + '/common/findMajorList?departId=' + state.departmentId)
+        .then(res => {
+          console.log(res)
+          var data = res.data.data
+          if (!data || data.length === 0) {
+            console.log('未找到院系')
+          } else {
+            console.log('suc>>>>', data)
+            // this.CHANGE_SUBCONDATA(state.subConData.concat(res.data.data))
+            self.majorList = data
+            self.actTabIndex = 2
+          }
+        }, err => {
+          console.log(err)
+        })
+    },
+    getTopicList (code) {
+      var self = this
+      var actTabIndex = self.actTabIndex
+      var state = self.$store.state
+      self.actTabIndex = -1
+      if (actTabIndex === 0) {
+        self.$store.commit('SET_SCODE', code)
+      } else if (actTabIndex === 1) {
+        self.$store.commit('SET_DEPARTMENTID', code)
+      } else if (actTabIndex === 2) {
+        self.$store.commit('SET_MAJORID', code)
+      }
+      this.$http({
+        method: 'get',
+        url: state.host + state.baseUrl + '/topic/findTopicList?curPage=' + this.curPage + '&pageSize=20'
+      }).then(res => {
+        var data = res.data.data.data
+        console.log(res)
+        if (!data || data.length === 0) {
+        } else {
+          self.topicList = data
+        }
+      }, err => {
+        console.log(err)
+      })
     }
   }
 }
@@ -127,7 +220,6 @@ export default {
         }
     }
     .tab-list-container{
-
         position:fixed;
         z-index:20;
         top:1.85rem; 
@@ -139,6 +231,9 @@ export default {
             padding-right:.1rem;
             background-color:#FFF;
             .list-item{
+                &.act{
+                    color:$theme-color;
+                }
                 height:.7rem;
                 padding-left:.27rem;
                 padding-right:.27rem;

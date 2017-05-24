@@ -24,6 +24,10 @@
                     <div class="text box-f1 ellipsis">风刀霜剑</div>
                 </div>
             </div>
+            <div class="search-none">
+                <div class="box box-f1"></div>
+                <div class="topic-create"></div>
+            </div>
             <div class="search-history">
                 <div class="box box-ac">
                     <div class="icon-history"></div>
@@ -66,8 +70,9 @@ export default {
         this.isShowSearch = false
       }
       var state = this.$store.state
-      console.log(state.host)
-      this.$http.get(state.host + state.baseUrl + '/topic/findTopiclList?title=' + this.searchWord + '&curPage=' + this.curPage + '&pageSize=20')
+      // console.log(state.host)
+      this.$store.dispatch('isLoading', true)
+      this.$http.get(state.host + state.baseUrl + '/topic/findTopicList?title=' + this.searchWord + '&curPage=' + this.curPage + '&pageSize=20')
         .then(res => {
           var data = res.data.data
           this.ajaxFlag = false

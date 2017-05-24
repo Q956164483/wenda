@@ -5,6 +5,7 @@
     <div class="container">
       <router-view></router-view>
     </div>
+    <div v-if="$store.state.isloading" class="loading animated bounce">loading</div>
   </div>
 </template>
 <script type="text/javascript">
@@ -12,10 +13,23 @@ import '../font/common/style.css'
 import '../css/common.scss'
 import '../css/mint-ui.scss'
 
-export default {}
+export default {
+  name: 'app',
+  computed: {
+    isLoading () {
+      return this.$store.state.isloading
+    }
+  }
+}
 </script>
 
-<style>
+<style lang="scss" scoped>
 /*用于开发时模拟页面高度，手机上打开时请删掉*/
   /*.container {margin-top:130px;}*/
+  .loading{
+    position:fixed;
+    top:50%;
+    left:50%;
+    z-index:9999;
+  }
 </style>
