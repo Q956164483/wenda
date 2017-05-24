@@ -1,6 +1,8 @@
 <template>
   <div class="register">
     <path-nav :current="'注册账号'">
+      <a href="javascript:void(0);" @click="$router.push('/')">首页</a>
+      &gt;  
       <a href="javascript:void(0);" @click="$router.push('/userinfo')">个人信息</a>
       &gt;
     </path-nav>
@@ -50,8 +52,6 @@ export default {
       error: '错误提示'
       // nameCorrect: true,
       // passCorrect: true,
-      // isShowOther: false,
-      // isShowMain: false
     }
   },
   methods: {
@@ -69,17 +69,55 @@ export default {
     },
     getCode() {
       this.countdown()
-      this.$http.get().then((res) => {
 
-      })
+      let that = this
+      let accountType = 1
+      if (this.username.indexOf('@') !== -1) {
+        accountType = 2
+      }
+      console.log(accountType)
+      if (accountType === 1) {
+        let url = 'http://slwsfs.imwork.net/weixin/api/common/sendMobileValidCode'
+        this.$http.post(url, {mobile: that.username, codeType: 100}).then((res) => {
+          console.log(res.body)
+        })
+      } else if (accountType === 2) {
+        let url = 'http://slwsfs.imwork.net/weixin/api/common/sendEmailValidCode'
+        this.$http.post(url, {email: that.username, codeType: 100}).then((res) => {
+          console.log(res.body)
+        })
+      }
     },
     register() {
       // 前端判断用户名密码
+      if (this.username === '') {
+        this.error = '手机号或邮箱不能为空'
+        this.isSubmit = true
+      } else if (this.yanzheng === '') {
+        this.error = '验证码不能为空'
+        this.isSubmit = true
+      } else if (this.password === '' || this.password2 === '') {
+        this.error = '密码不能为空'
+        this.isSubmit = true
+      } else if (this.password !== this.password2) {
+        this.error = '两次密码不一致'
+        this.isSubmit = true
+      } else {
+        this.isSubmit = false
+      }
+      if (this.isSubmit === true) {
+        return
+      }
 
-      // 传去后台，开启loading
-      Indicator.open({
-        text: 'loading...',
-        spinnerType: 'snake'
+      let that = this
+      // let url = 'http://host:port/weixin/api/user/register'
+      let url = 'http://slwsfs.imwork.net/weixin/api/user/register'
+      this.$http.post(url, {account: that.username, validCode: that.yanzheng, password: that.password, accountType: that.accountType}).then((res) => {
+        Indicator.open({
+          text: 'loading...',
+          spinnerType: 'snake'
+        })
+        console.log(res.body)
       })
       // 根据反馈改nameCorrect，passCorrect
 

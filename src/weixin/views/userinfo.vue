@@ -1,6 +1,8 @@
 <template>
   <div class="userinfo" :class="{notLogined: !isLogined}">
     <path-nav :current="'个人信息'">
+    <a href="javascript:void(0);" @click="$router.push('/')">首页</a>
+      &gt;  
     </path-nav>
     <div class="main">
       <a v-for="list in lists" class="list clear" :class="list.name" @click="$router.push('/' + list.url)">

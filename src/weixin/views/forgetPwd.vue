@@ -1,6 +1,8 @@
 <template>
   <div class="register">
     <path-nav :current="'忘记密码'">
+      <a href="javascript:void(0);" @click="$router.push('/')">首页</a>
+      &gt;  
       <a href="javascript:void(0);" @click="$router.push('/userinfo')">个人信息</a>
       &gt;
     </path-nav>
