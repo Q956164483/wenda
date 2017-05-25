@@ -17,3 +17,10 @@
     font-size: pxToRem(32);
   }
 }
+.mint-toast{
+    border-radius:.1rem;
+    padding:.2rem !important;
+    .mint-toast-text{
+      font-size:.3rem;
+    }
+}
