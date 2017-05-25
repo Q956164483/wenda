@@ -7,12 +7,15 @@
         <div class="box box-ver topic-detail">
             <div class="box banner topic-item box-ver" style="background-image:url(https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1495298744871&di=4e64a4d714992005e68cf647a95de613&imgtype=0&src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F6%2F578855a8e41e1.jpg)" >
                 <div class="box box-ac">
-                    <div class="box-f1"></div>
-                    <a class="link" href="http://www.baidu.com">中国地质大学招生系统</a>
+                    <div class="create-user box box-ac box-f1">
+                        <div class="icon-head"></div>
+                        <div class="name ellipsis box-f1">{{topicDetail.userName}}</div>
+                    </div>
+                    <a class="link" :href="$store.state.hostZS+'?sCode='+topicDetail.sCode">{{topicDetail.schoolName}}招生系统</a>
                 </div>
                 <div class="box-f1"></div>
                 <div class="box-pc box title tx-c">
-                    我是中国地质大学地质系主任， 想问地质专业的任何问题，请来问我吧！
+                    {{topicDetail.title}}
                 </div>
                 <div class="box box-ac">
                     <div class="box-f1"></div>
@@ -24,7 +27,9 @@
                 </div>
             </div>
             <div class="content box box-ver">
-                <p :class="showDesc?'ell-3':''" class="topic-desc box">中国地质大学的前身是1952年由北京大学、清华大 学、天津大学中国地质大学的前身是1952年由北京大学、清华大 学、天津大学和唐山铁道学院等院校的地质系(科)合并组 建的北京地</p>
+                <p :class="showDesc?'ell-3':''" class="topic-desc box">
+                    {{topicDetail.content}}
+                </p>
                 <div @click="showDesc = false" v-if="showDesc"  class="icon-arrow-bot"></div>
                 <div class="box">
                     <div class="box-f1 date">2015-05-20</div>
@@ -109,7 +114,7 @@
                 <div class="box">
                     <div @click="showCommentFlag = false" class="icon-close"></div>
                     <div class="box-f1"></div>
-                    <div class="icon-sure"></div>
+                    <div @click="saveQAdata()" class="icon-sure"></div>
                 </div>
             </div>
         </div>
@@ -131,7 +136,7 @@
 </template>
 
 <script>
-
+import { Toast } from 'mint-ui'
 export default {
   components: {
     'nav-path': require('../components/path.vue')
@@ -140,9 +145,21 @@ export default {
     return {
       showDesc: true,
       showCommentFlag: false,
-      comments: [1],
-      commentWord: ''
+      comments: [],
+      commentWord: '', // 评论内容
+      topicDetail: {}, // 话题详情
+      curPage: 1,
+      topicId: this.$route.query.topicId
     }
+  },
+  mounted () {
+    Toast({
+      message: '获取详情错误',
+      duration: 500000000
+    })
+    var self = this
+    self.getTopicDetail(self.topicId)
+    self.getQuestionAnswerList(self.topicId)
   },
   methods: {
     showComment () {
@@ -150,6 +167,78 @@ export default {
     },
     showReply () {
       this.$router.push('./commentsList')
+    },
+    getTopicDetail (topicId) {
+      var self = this
+      var state = self.$store.state
+      var url = state.host + state.baseUrl + '/topic/getTopicDetail?topicId=' + topicId + '&userId=' + state.userId
+      self.$http.get(url)
+        .then(res => {
+          var data = res.data.data
+          if (!data || data.length === 0) {
+            console.log('没有详情')
+          } else {
+            console.log('详情来了>>>>', data)
+            self.topicDetail = data
+          }
+        }, err => {
+          Toast({
+            message: '获取详情错误',
+            duration: 5000
+          })
+          console.log('请求出错了>>>>', err)
+        })
+    },
+    getQuestionAnswerList (topicId) {
+      var self = this
+      var state = self.$store.state
+      var url = state.host + state.baseUrl + '/questionAnswer/findQuestionAnswerList?topicId=' + topicId + '&userId=' + state.userId + '&curPage=' + self.curPage + '&pageSize=5'
+      self.$http.get(url)
+        .then(res => {
+          var data = res.data.data
+          if (!data || data.length === 0) {
+            console.log('没有回复')
+          } else {
+            console.log('回复列表>>>>', data)
+            self.comments = data
+          }
+        }, err => {
+          console.log('请求出错了>>>>', err)
+        })
+    },
+    saveQAdata (pid) {
+      var self = this
+      var state = self.$store.state
+      if (self.commentWord.length === 0) {
+        console.log('评论太短了')
+      }
+      console.log(self.topicDetail)
+      var url = state.host + state.baseUrl + '/questionAnswer/saveQAdata?topicId=' + self.topicId + '&targetUserId=' + state.userId + '&targetUserNickName=' + state.userName + '&content=' + self.commentWord + '&creatorId=' + self.topicDetail.creatorId + '&creator=' + self.topicDetail.userName
+      self.$http.get(url)
+      .then(res => {
+        var data = res.data
+        console.log(res)
+        if (data.code !== '000000') {
+          Toast({
+            message: '评论失败',
+            position: 'bottom',
+            duration: 3000
+          })
+        } else {
+          Toast({
+            message: '评论成功',
+            position: 'bottom',
+            duration: 3000
+          })
+        }
+      }, err => {
+        Toast({
+          message: '评论失败',
+          position: 'bottom',
+          duration: 3000
+        })
+        console.log('请求出错了>>>>', err)
+      })
     }
   },
   watch: {
@@ -193,6 +282,19 @@ export default {
         background-color: #EEE;
         color:#FFF;
         @include bg-size(cover); 
+        .create-user{
+            .icon-head{
+                background-color:#ddd;
+                width:.54rem;
+                height:.54rem;
+                border:.01rem solid #ddd;
+                border-radius:50%;
+            }
+            .name{
+                margin-left:.2rem;
+                font-size:.26rem;
+            }
+        }
         .link{
             //text-decoration: underline;
             font-size:.32rem;

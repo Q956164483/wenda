@@ -1,5 +1,7 @@
 <template>
-    <div class="box box-ver">
+    <div v-infinite-scroll="loadMore"
+         infinite-scroll-distance="100" 
+         class="box box-ver">
         <div class="box box-ac tab">
             <div @click="getSchoolList()" :class="actTabIndex==0?'act':''" class="tab-item box box-f1 box-fh box-ac box-pc">
                 <div>高校</div>
@@ -30,7 +32,7 @@
             </div>
         </div>
         <div class="box box-ver topic-list">
-            <div v-for="item in topicList" @click="openDetail(item)" :style="{'background-image':'url('+$store.state.hostImg+item.imgUrl+')'}"  class="box topic-item box-ver" >
+            <div v-for="item in topicList" @click="goTopicDetail(item)" :style="{'background-image':'url('+$store.state.hostImg + item.imgUrl+')'}"  class="box topic-item box-ver" >
                 <div class="create-user box box-ac">
                     <div class="icon-head"></div>
                     <div class="name ellipsis box-f1">{{item.userName}}</div>
@@ -41,11 +43,10 @@
                 </div>
                 <div class="box box-ac">
                     <div class="create-college box box-ac box-f1 box-fh">
-                        <div class="icon-head"></div>
-                        <div class="name ellipsis box-f1">{{}}</div>
+                        <div :style="{'background-image':'url('+$store.state.hostImg + item.schoolLogo+')'}" class="icon-head" ></div>
+                        <div class="name ellipsis box-f1">{{item.departmentName}}</div>
                     </div>
-                    <div class="box box-ac box-pc box-f1 box-fh status">
-                        进行中...
+                    <div v-text="showStatus(item.status)" class="box box-ac box-pc box-f1 box-fh status">
                     </div>
                     <div class="box box-ac box-f1 box-fh collect">
                         <div class="box-f1"></div>
@@ -65,7 +66,9 @@
 <script>
 // import { InfiniteScroll } from 'mint-ui'
 import {mapGetters} from 'vuex'
-
+import Vue from 'vue'
+import { InfiniteScroll } from 'mint-ui'
+Vue.use(InfiniteScroll)
 export default {
   name: 'hello',
   components: {
@@ -73,7 +76,6 @@ export default {
   },
   mounted () {
     this.getTopicList()
-    console.log(this.sCode)
   },
   computed: {
     // 使用对象展开运算符将 getters 混入 computed 对象中
@@ -90,15 +92,27 @@ export default {
       departmentList: [],
       topicList: [],
       showTabListFlag: false,
-      curPage: 1
+      curPage: 0,
+      ArrStatus: ['待审核', '进行中...', '此话题已关闭']
     }
   },
   methods: {
     loadMore () {
-      this.topicList.push(0)
+      this.curPage++
+      this.getTopicList()
     },
-    openDetail (item) {
-      this.$router.push('../topicDetail')
+    checkLogin(router) {
+      var self = this
+      var state = self.$store.state
+      if (!state.isLogin) {
+        self.$router.push('./login')
+      } else {
+        self.$router.push(router)
+      }
+    },
+    goTopicDetail (item) {
+      var self = this
+      self.checkLogin('./topicDetail?topicId=' + item.id)
     },
     getSchoolList () {
       var self = this
@@ -167,6 +181,9 @@ export default {
           console.log(err)
         })
     },
+    showStatus (status) {
+      return this.ArrStatus[status]
+    },
     getTopicList (code) {
       var self = this
       var actTabIndex = self.actTabIndex
@@ -185,10 +202,11 @@ export default {
         url: url
       }).then(res => {
         var data = res.data.data.data
-        console.log(res)
+        console.log('findTopicList>>>>', res)
         if (!data || data.length === 0) {
         } else {
-          self.topicList = data
+          if (self.curPage === 1) self.topicList = []
+          self.topicList = self.topicList.concat(data)
         }
       }, err => {
         console.log(err)
@@ -197,7 +215,6 @@ export default {
   }
 }
 </script>
-
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
     @import '../css/color.scss';
@@ -260,6 +277,8 @@ export default {
     .topic-list{
         margin-top:1.84rem;
         padding-bottom:1.1rem;
+        height:100%;
+        overflow-y:scroll;
     }
     .topic-item{
         margin:.1rem .2rem;
