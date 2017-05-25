@@ -3,22 +3,22 @@
         <div class="icon-user" @click="checkLogin('./userList')">
             <div v-if="hasNews" class="news"></div>
         </div>
-        <form class="box box-f1 box-ac" action="javascript:return true;" >
+        <form class="box box-f1 box-ac" action="javascript: return true;" >
             <div class="icon-search"></div>
             <input v-model="searchWord" id="search"  type="search" class="box box-f1"  placeholder="请输入您要搜索的话题" />
         </form>
         <div class="icon-user-list " @click="checkLogin('./userList')">
         </div>
         <div :class="searchWord.length>0 ? '':'hide'" class="search-container box-ver">
-            <div class="search-list box box-ver">
-                <div v-if="searchList.length>0" v-for="(item, index) in searchList" @click="goTopicDetail(item)" class="search-item box box-ac">
+            <div v-if="searchList.length>0" class="search-list box box-ver">
+                <div v-for="(item, index) in searchList" @click="goTopicDetail(item)" class="search-item box box-ac">
                     <div class="icon-search"></div>
                     <div class="text box-f1 ellipsis">{{item.title}}</div>
                 </div>
             </div>
             <div v-if="searchList.length===0" class="search-none box box-ac">
-                <div class="box box-f1">抱歉！没有搜索到您要找的话题。</div>
-                <div class="topic-create box box-ac box-pc">创建话题</div>
+                <div class="box box-f1 box-pc">抱歉！没有搜索到您要找的话题。</div>
+                <div @click="checkLogin('./topicCreate')" class="topic-create box box-ac box-pc">创建话题</div>
             </div>
             <div class="search-history">
                 <div class="box box-ac">
@@ -112,16 +112,20 @@ export default {
             padding:.3rem;
             font-size:.28rem;
             color:#686868;
+            background-color:#FFF;
             .topic-create{
                 width:1.37rem;
                 height:.5rem;
                 background-color:#f19149;
+                border-radius:.1rem;
+                color:#FFF;
             }
         }
         .search-history{
             background-color:#FFF;
             padding:.25rem;
             color:$theme-color;
+            border-top:.01rem solid $border-color;
             .icon-history{
                 width:.26rem;
                 height:.26rem;
