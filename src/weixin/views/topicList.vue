@@ -179,9 +179,10 @@ export default {
       } else if (actTabIndex === 2) {
         self.$store.commit('SET_MAJORID', code)
       }
+      var url = state.host + state.baseUrl + '/topic/findTopicList?sCode=' + state.sCode + '&departmentId=' + state.departmentId + '&majorId' + state.majorId + '&curPage=' + self.curPage + '&pageSize=5'
       this.$http({
         method: 'get',
-        url: state.host + state.baseUrl + '/topic/findTopicList?curPage=' + this.curPage + '&pageSize=20'
+        url: url
       }).then(res => {
         var data = res.data.data.data
         console.log(res)

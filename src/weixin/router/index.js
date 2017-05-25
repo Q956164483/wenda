@@ -21,41 +21,71 @@ export default new Router({
       children: [
         {
           path: '/',
-          component: topicList
+          component: topicList,
+          meta: {
+            pageTitle: '招办问答首页'
+          }
+          // meta: {
+          //   keepAlive: true // 需要被缓存
+          // }
         },
         {
           path: '/topicDetail',
-          component: topicDetail
+          component: topicDetail,
+          meta: {
+            pageTitle: '坐席详情'
+          }
         },
         {
           path: '/commentsList',
-          component: commentsList
+          component: commentsList,
+          meta: {
+            pageTitle: '评论列表'
+          }
         },
         {
           path: '/topicCreate',
-          component: topicCreate
+          component: topicCreate,
+          meta: {
+            pageTitle: '创建话题'
+          }
         }
       ]
     },
     {
       path: '/login',
-      component: Login
+      component: Login,
+      meta: {
+        pageTitle: '登录'
+      }
     },
     {
       path: '/register',
-      component: Register
+      component: Register,
+      meta: {
+        pageTitle: '注册'
+      }
     },
     {
       path: '/forgetpwd',
-      component: ForgetPwd
+      component: ForgetPwd,
+      meta: {
+        pageTitle: '忘记密码'
+      }
     },
     {
       path: '/updatepwd',
-      component: Updatepwd
+      component: Updatepwd,
+      meta: {
+        pageTitle: '修改密码'
+      }
     },
     {
       path: '/userinfo',
-      component: Userinfo
+      component: Userinfo,
+      meta: {
+        pageTitle: '个人信息'
+      }
     }
   ]
 })

@@ -5,7 +5,7 @@
     <div class="container">
       <router-view></router-view>
     </div>
-    <div v-if="$store.state.isloading" class="loading animated bounce">loading</div>
+    <div v-if="$store.state.isloading" class="loading animated bounce">loading...</div>
   </div>
 </template>
 <script type="text/javascript">
@@ -30,7 +30,8 @@ export default {
     font-size:1rem;
     position:fixed;
     bottom:10%;
-    left:50%;
-    z-index:9999;
+    left:30%;
+    z-index:99999;
+    background-color:rgba(0,0,0,.5);
   }
 </style>
