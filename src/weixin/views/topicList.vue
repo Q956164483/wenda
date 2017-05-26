@@ -130,6 +130,10 @@ export default {
           } else {
             console.log('suc>>>>', data)
             self.schoolList = data
+            self.schoolList.unshift({
+              name: '全部',
+              code: ''
+            })
             self.actTabIndex = 0
           }
         }, err => {
@@ -152,6 +156,10 @@ export default {
           } else {
             console.log('suc>>>>', data)
             self.departmentList = data
+            self.departmentList.unshift({
+              name: '全部',
+              id: ''
+            })
             self.actTabIndex = 1
           }
         }, err => {
@@ -175,6 +183,10 @@ export default {
             console.log('suc>>>>', data)
             // this.CHANGE_SUBCONDATA(state.subConData.concat(res.data.data))
             self.majorList = data
+            self.majorList.unshift({
+              name: '全部',
+              id: ''
+            })
             self.actTabIndex = 2
           }
         }, err => {

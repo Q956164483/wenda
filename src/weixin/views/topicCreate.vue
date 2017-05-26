@@ -61,7 +61,6 @@ export default {
       var self = this
       var ele = event.currentTarget
       self.file = ele.files[0]
-      // console.log(this.file)
       self.images.push(window.URL.createObjectURL(self.file))
     },
     saveTopic () {
