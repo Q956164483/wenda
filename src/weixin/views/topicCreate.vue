@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import {Indicator} from 'mint-ui'
+import {Toast} from 'mint-ui'
 export default {
   name: 'hello',
   data() {
@@ -86,10 +86,10 @@ export default {
         return
       }
       this.isSubmit = false
-      Indicator.open({
-        text: 'loading...',
-        spinnerType: 'snake'
-      })
+      // Indicator.open({
+      //   text: 'loading...',
+      //   spinnerType: 'snake'
+      // })
       var formData = new FormData()
       formData.append('file', file)
       formData.append('title', title)
@@ -97,12 +97,14 @@ export default {
       formData.append('sCode', state.sCode)
       formData.append('creatorId', state.creatorId)
       formData.append('creator', state.userName)
-      this.$http.post(state.host + state.baseUrl + '/topic/saveTopic', formData)
-      .then(res => {
-        Indicator.close()
+      this.$http.post(state.host + state.baseUrl + '/topic/saveTopic', formData, {
+        progress(event) {
+          let progress = parseFloat(event.loaded / event.total * 100)
+          Toast({message: progress})
+        }
+      }).then(res => {
         console.log(res)
       }, err => {
-        Indicator.close()
         console.log('err>>>', err)
       })
     }
