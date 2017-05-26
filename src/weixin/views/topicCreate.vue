@@ -12,20 +12,18 @@
       <div class="text">
         话题详细描述：
       </div>
-      <textarea name="" id="" placeholder="请输入话题描述">
+      <textarea v-model="content" maxlength="300" name="" id="" placeholder="请输入话题描述">
       </textarea>
-      <div class="counter">0/300</div>
+      <div class="counter">{{content.length}}/300</div>
     </div>
-    <div class="img card">
-      <img class="uploadImg" :src="uploadImg">
-      <input  type="file" value="上传" class="file">
-      <div v-if="images.length>0" v-for="(item,index) in images" :style="{backgroundImage: 'url(' + item + ')'}" class="photo-item bc-img1">
+    <div class="img card box box-ac">
+      <div v-if="images.length>0" v-for="(item,index) in images" :style="{backgroundImage: 'url(' + item + ')'}" class="photo-item">
       </div>
-      <label v-if="images.length===0" for="checkPhoto" class="photo-item box-ac box-pc box">
+      <label v-if="images.length===0" for="checkPhoto" class="photo-item">
           <div class="uploadImg"></div>
           <input @change="getFile($event)"  id="checkPhoto" type="file" multiple="multiple" accept="image/*"/>
       </label>
-      <div class="decs">
+      <div v-if="images.length===0" class="decs">
         <p class="text">添加话题图片</p>
         <p class="sub">(建议尺寸:690*400px)</p>
       </div>
@@ -34,7 +32,7 @@
     <div class="list clear">所属专业<img :src="arrow" alt="" class="arrow-right fr"></div>
     <div class="error" v-show="isSubmit">{{error}}</div>
     <div class="btns clear">
-      <div class="btn cancel fl">取消</div>
+      <div @click="back()" class="btn cancel fl">取消</div>
       <div @click="saveTopic()" class="btn submit fr">提交</div>
     </div>
   </div>
@@ -48,25 +46,42 @@ export default {
       uploadImg: require('../img/upload.png'),
       arrow: require('../img/arrow-right.png'),
       images: [],
-      error: '错误信息',
+      error: ' ',
       isSubmit: true,
       file: '',
-      title: ''
+      title: '',
+      content: ''
     }
   },
   methods: {
+    back () {
+      this.$router.go(-1)
+    },
     getFile (event) {
+      var self = this
       var ele = event.currentTarget
-      this.file = ele.files[0]
+      self.file = ele.files[0]
+      // console.log(this.file)
+      self.images.push(window.URL.createObjectURL(self.file))
+      // console.log(this.images)
     },
     saveTopic () {
       var self = this
       var state = self.$store.state
-      var title = '我是标题'
-      var content = '我是内容'
+      var title = self.title
+      var content = self.content
       var file = self.file
+      if (title.length === 0) {
+        self.error = '请填写标题'
+        return
+      }
+      if (content.length === 0) {
+        self.error = '请填写内容'
+        return
+      }
       if (file === '') {
-        console.log('没图片')
+        self.error = '请先上传图片'
+        return
       }
       var formData = new FormData()
       formData.append('file', file)
@@ -81,16 +96,6 @@ export default {
       }, err => {
         console.log('err>>>', err)
       })
-    //   this.$http({
-    //     method: 'post',
-    //     url: state.host + state.baseUrl + '/topic/saveTopic',
-    //     data: formData
-    //   })
-    //   .then(res => {
-    //     console.log(res)
-    //   }, err => {
-    //     console.log('err>>>', err)
-    //   })
     }
   },
   created() {
@@ -134,6 +139,21 @@ export default {
           font-size: .26rem
         }
       }
+      .photo-item{
+          position:relative;
+          width:1rem;
+          height:1rem;
+          @include bg-size(cover);
+          #checkPhoto{
+            opacity: 0
+          }
+          .uploadImg{
+            width:100%;
+            height:100%;
+            @include bg-size(cover);
+            @include bg-image('../img/upload')
+          }
+      }
       .img {
         .uploadImg {
           width: 1rem;
@@ -167,6 +187,7 @@ export default {
       .error {
         text-align: center;
         line-height: 1rem;
+        height:1rem;
         // padding-left: .2rem;
         // background-color: $error-bg;
         color:$txt-color3;
