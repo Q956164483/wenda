@@ -56,7 +56,7 @@
                 </div>
             </div>
         </div>
-        <div @click="$router.push('../topicCreate')" class="topic-create box box-pc box-ac">
+        <div v-if="$store.state.userInfo.isTopicAdmin == 1" @click="checkLogin('./topicCreate')" class="topic-create box box-pc box-ac">
             <div class="icon-create-topic"></div>
             <div class="txt">我要创建话题</div>
         </div>
@@ -178,6 +178,11 @@ export default {
       }
       if (!self.$store.sCode) {
         Toast({message: '请先选择高校', position: 'top', duration: 1000})
+        return false
+      }
+      if (!self.$store.departmentId) {
+        Toast({message: '请先选择院系', position: 'top', duration: 1000})
+        return false
       }
       this.$http.get(state.host + state.baseUrl + '/common/findMajorList?departId=' + state.departmentId)
         .then(res => {
@@ -298,7 +303,7 @@ export default {
     }
     .topic-list{
         margin-top:1.84rem;
-        padding-bottom:1.1rem;
+        // padding-bottom:1.1rem;
         height:100%;
         overflow-y:scroll;
     }

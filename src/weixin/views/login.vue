@@ -128,9 +128,9 @@ export default {
         // Indicator.close()
         if (data.code === '000000') {
           this.$store.commit('SET_USERID', data.data.id)
-          // this.$store.commit('SET_NICKNAME', data.data.nickName)
-          // this.$store.commit('SET_SCODE', data.data.sCode ? data.data.sCode : '')
-          // this.$store.commit('SET_ISLOGIN', true)
+          this.$store.commit('SET_USERNAME', data.data.nickName)
+          this.$store.commit('SET_SCODE', data.data.sCode ? data.data.sCode : '')
+          this.$store.commit('SET_ISLOGIN', true)
           this.getUserInfo(data.data.id)
           // this.$router.push('/userinfo')
           console.log(data)
@@ -161,7 +161,6 @@ export default {
         console.log(data)
         if (data.code === '000000') {
           this.$store.commit('SET_USERINFO', data.data)
-          this.$store.commit('SET_ISLOGIN', true)
           this.$router.push('/userinfo')
         } else {
           console.log('获取信息失败')

@@ -95,16 +95,22 @@ export default {
       formData.append('title', title)
       formData.append('content', content)
       formData.append('sCode', state.sCode)
-      formData.append('creatorId', state.creatorId)
+      formData.append('creatorId', state.userId)
       formData.append('creator', state.userName)
       this.$http.post(state.host + state.baseUrl + '/topic/saveTopic', formData, {
         progress(event) {
-          let progress = parseFloat(event.loaded / event.total * 100)
-          Toast({message: progress})
+          let progress = parseFloat(event.loaded / event.total * 100) + '%'
+          Toast({message: '图片上传中' + progress, duration: 100})
         }
       }).then(res => {
-        console.log(res)
+        var data = res.data
+        if (data.code !== '000000') {
+          Toast({message: '系统异常', duration: 3000})
+        } else {
+          Toast({message: '创建成功', duration: 3000})
+        }
       }, err => {
+        Toast({message: '创建失败', duration: 3000})
         console.log('err>>>', err)
       })
     }
