@@ -108,6 +108,9 @@ export default {
           Toast({message: '系统异常', duration: 3000})
         } else {
           Toast({message: '创建成功', duration: 3000})
+          setTimeout(function() {
+            self.$router.push('./')
+          }, 2000)
         }
       }, err => {
         Toast({message: '创建失败', duration: 3000})

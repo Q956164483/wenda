@@ -146,7 +146,7 @@ export default {
         self.actTabIndex = -1
         return false
       }
-      if (!self.$store.sCode) {
+      if (!state.sCode) {
         Toast({message: '请先选择高校', position: 'top', duration: 1000})
         return false
       }
@@ -176,11 +176,11 @@ export default {
         self.actTabIndex = -1
         return false
       }
-      if (!self.$store.sCode) {
+      if (!state.sCode) {
         Toast({message: '请先选择高校', position: 'top', duration: 1000})
         return false
       }
-      if (!self.$store.departmentId) {
+      if (!state.departmentId) {
         Toast({message: '请先选择院系', position: 'top', duration: 1000})
         return false
       }
@@ -211,19 +211,21 @@ export default {
       var self = this
       var actTabIndex = self.actTabIndex
       var state = self.$store.state
-      self.actTabIndex = -1
-      console.log(self.actTabIndex)
       if (actTabIndex === 0) {
         self.$store.commit('SET_SCODE', code)
         self.$store.commit('SET_DEPARTMENTID', '')
         self.$store.commit('SET_MAJORID', '')
+        self.curPage = 1
       } else if (actTabIndex === 1) {
         self.$store.commit('SET_DEPARTMENTID', code)
-        self.$store.commit('SET_MAJORID', code)
+        self.$store.commit('SET_MAJORID', '')
+        self.curPage = 1
       } else if (actTabIndex === 2) {
         self.$store.commit('SET_MAJORID', code)
+        self.curPage = 1
       }
-      var url = state.host + state.baseUrl + '/topic/findTopicList?sCode=' + state.sCode + '&departmentId=' + state.departmentId + '&majorId' + state.majorId + '&curPage=' + self.curPage + '&pageSize=5'
+      self.actTabIndex = -1
+      var url = state.host + state.baseUrl + '/topic/findTopicList?sCode=' + state.sCode + '&departmentId=' + state.departmentId + '&majorId=' + state.majorId + '&curPage=' + self.curPage + '&pageSize=5'
       this.$http({
         method: 'get',
         url: url

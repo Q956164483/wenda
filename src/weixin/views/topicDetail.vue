@@ -22,7 +22,7 @@
                     <div class="box-f1"></div>
                     <div class="box box-ac collect">
                         <div class="box-f1"></div>
-                        <div class="icon-collect"></div>
+                        <div @click="subscribe()" :class="topicDetail.isSubscribe==1?'icon-collect-act':''" class="icon-collect"></div>
                         <div class="num">订阅</div>
                     </div>
                 </div>
@@ -255,9 +255,32 @@ export default {
         } else {
           Toast({message: '点赞成功', duration: 3000})
         }
-        self.showCommentFlag = false
       }, err => {
         Toast({message: '点赞失败', duration: 3000})
+        console.log('请求出错了>>>>', err)
+      })
+    },
+    // 订阅话题
+    subscribe () {
+      var self = this
+      if (self.topicDetail.isSubscribe === 1) {
+        Toast({message: '您已订阅', duration: 3000})
+        return false
+      }
+      var state = self.$store.state
+      var url = state.host + state.baseUrl + '/topic/subscribe?userId=' + state.userId + '&topicId=' + self.topicId
+      self.$http.get(url)
+      .then(res => {
+        var data = res.data
+        console.log(res)
+        if (data.code !== '000000') {
+          Toast({message: '系统异常', position: 'bottom', duration: 3000})
+        } else {
+          self.topicDetail.isSubscribe = 1
+          Toast({message: '订阅成功', duration: 3000})
+        }
+      }, err => {
+        Toast({message: '订阅失败', duration: 3000})
         console.log('请求出错了>>>>', err)
       })
     }
