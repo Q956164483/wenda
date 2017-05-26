@@ -129,7 +129,7 @@ export default {
         if (data.code === '000000') {
           this.$store.commit('SET_USERID', data.data.id)
           this.$store.commit('SET_NICKNAME', data.data.nickName)
-          this.$store.commit('SET_SCODE', data.data.sCode)
+          this.$store.commit('SET_SCODE', data.data.sCode ? data.data.sCode : '')
           this.$store.commit('SET_ISLOGIN', true)
           this.$router.push('/userinfo')
           console.log(data)
