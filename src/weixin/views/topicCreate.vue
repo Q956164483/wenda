@@ -28,6 +28,9 @@
         <p class="sub">(建议尺寸:690*400px)</p>
       </div>
     </div>
+    <!-- <select name="" id="" style="width:100%;height:50px;">
+      <option value="">所属院系</option>
+    </select> -->
     <div class="list clear">所属院系<img :src="arrow" alt="" class="arrow-right fr"></div>
     <div class="list clear">所属专业<img :src="arrow" alt="" class="arrow-right fr"></div>
     <div class="error" v-show="isSubmit">{{error}}</div>
@@ -39,6 +42,7 @@
 </template>
 
 <script>
+import {Indicator} from 'mint-ui'
 export default {
   name: 'hello',
   data() {
@@ -81,6 +85,11 @@ export default {
         self.error = '请先上传图片'
         return
       }
+      this.isSubmit = false
+      Indicator.open({
+        text: 'loading...',
+        spinnerType: 'snake'
+      })
       var formData = new FormData()
       formData.append('file', file)
       formData.append('title', title)
@@ -90,8 +99,10 @@ export default {
       formData.append('creator', state.userName)
       this.$http.post(state.host + state.baseUrl + '/topic/saveTopic', formData)
       .then(res => {
+        Indicator.close()
         console.log(res)
       }, err => {
+        Indicator.close()
         console.log('err>>>', err)
       })
     }
