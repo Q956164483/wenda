@@ -30,7 +30,7 @@ export default new Router({
           // }
         },
         {
-          path: '/topicDetail',
+          path: '/topicDetail/:topicId',
           component: topicDetail,
           meta: {
             pageTitle: '坐席详情'

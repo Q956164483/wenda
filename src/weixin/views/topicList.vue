@@ -125,7 +125,7 @@ export default {
     },
     goTopicDetail (item) {
       var self = this
-      self.checkLogin('./topicDetail?topicId=' + item.id)
+      self.checkLogin('./topicDetail/' + item.id)
     },
     getSchoolList () {
       var self = this

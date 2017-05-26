@@ -149,13 +149,14 @@ export default {
       commentWord: '', // 评论内容
       topicDetail: {}, // 话题详情
       curPage: 1,
-      topicId: this.$route.query.topicId,
+      topicId: this.$route.params.topicId,
       hideFooter: false,
       nowTime: new Date().getTime()
     }
   },
   mounted () {
     var self = this
+    alert(this.$route.params.topicId)
     self.getTopicDetail()
     self.getQuestionAnswerList()
   },
@@ -310,10 +311,8 @@ export default {
     }
   },
   watch: {
-    watch: {
-      // 如果路由有变化，会再次执行该方法
-      '$route': 'getTopicDetail'
-    }
+    // 如果路由有变化，会再次执行该方法
+    '$route': 'getTopicDetail'
   }
 }
 </script>

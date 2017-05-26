@@ -49,15 +49,17 @@ export default {
       var self = this
       var state = self.$store.state
       if (!state.isLogin) {
-        self.$router.push('./login')
+        self.$router.push('/login')
       } else {
-        self.$router.push(router)
+        self.$router.go({path: router})
+        // self.$router.push(router)
       }
     },
     goTopicDetail (item) {
       var self = this
       self.searchWord = ''
-      self.checkLogin('/topicDetail?topicId=' + item.id)
+      self.checkLogin('/topicDetail/' + item.id)
+      // self.checkLogin('/topicDetail?topicId=' + item.id)
     }
   },
   watch: {
