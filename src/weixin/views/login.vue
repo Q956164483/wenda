@@ -132,11 +132,12 @@ export default {
           this.$store.commit('SET_SCODE', data.data.sCode)
           this.$store.commit('SET_ISLOGIN', true)
           this.$router.push('/userinfo')
+          console.log(data)
         } else {
           Toast({
             message: data.message,
             position: 'middle',
-            duration: 5000
+            duration: 3000
           })
         }
       })
