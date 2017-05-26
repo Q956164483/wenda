@@ -32,7 +32,7 @@
 
 <script>
 import pathNav from '../components/path.vue'
-import {Indicator} from 'mint-ui'
+import {Indicator, Toast} from 'mint-ui'
 
 export default {
   components: {
@@ -69,6 +69,9 @@ export default {
       }, 1000)
     },
     getCode() {
+      if (this.isSend === true) {
+        return
+      }
       let state = this.$store.state
       let that = this
       let accountType = 1
@@ -130,12 +133,23 @@ export default {
       if (this.username.indexOf('@') !== -1) {
         accountType = 2
       }
+      Indicator.open({
+        text: 'loading...',
+        spinnerType: 'snake'
+      })
       let url = state.host + state.baseUrl + '/user/resetPassword?account=' + that.username + '&validCode=' + that.yanzheng + '&password=' + that.password + '&accountType=' + accountType
       this.$http.get(url).then((res) => {
-        Indicator.open({
-          text: 'loading...',
-          spinnerType: 'snake'
-        })
+        let data = res.body
+        Indicator.close()
+        if (data.code === '000000') {
+          this.$router.push('/login')
+        } else {
+          Toast({
+            message: data.message,
+            position: 'middle',
+            duration: 5000
+          })
+        }
         console.log(res.body)
       })
       // this.$http.post(url, {account: that.username, validCode: that.yanzheng, password: that.password, accountType: that.accountType}).then((res) => {

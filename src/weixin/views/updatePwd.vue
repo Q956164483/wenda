@@ -25,7 +25,7 @@
 
 <script>
 import pathNav from '../components/path.vue'
-import {Indicator} from 'mint-ui'
+import {Indicator, Toast} from 'mint-ui'
 
 export default {
   components: {
@@ -38,7 +38,7 @@ export default {
       password2: '',
       isSubmit: false,
       error: '错误提示',
-      id: 654
+      id: this.$store.state.userId
       // 测试用id
       // nameCorrect: true,
       // passCorrect: true,
@@ -57,14 +57,24 @@ export default {
       if (this.isSubmit === true) {
         return
       }
-
+      Indicator.open({
+        text: 'loading...',
+        spinnerType: 'snake'
+      })
       let that = this
       let url = state.host + state.baseUrl + '/user/updatePassword?id=' + that.id + '&password=' + that.password + '&oldPassword=' + that.oldPassword
       this.$http.get(url).then((res) => {
-        Indicator.open({
-          text: 'loading...',
-          spinnerType: 'snake'
-        })
+        let data = res.body
+        Indicator.close()
+        if (data.code === '000000') {
+          this.$router.push('/login')
+        } else {
+          Toast({
+            message: data.message,
+            position: 'middle',
+            duration: 5000
+          })
+        }
         console.log(res.body)
       })
       // this.$http.post(url, {account: that.username, validCode: that.yanzheng, password: that.password, accountType: that.accountType}).then((res) => {

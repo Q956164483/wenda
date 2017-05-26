@@ -61,7 +61,7 @@
 
 <script type="text/javascript">
 import pathNav from '../components/path.vue'
-import {Indicator} from 'mint-ui'
+import {Indicator, Toast} from 'mint-ui'
 
 export default {
   components: {
@@ -100,11 +100,18 @@ export default {
       // 前端判断用户名密码
       if (this.username === '') {
         this.error = '账号不能为空'
-        this.isSubmit = true
-      } else if (this.password === '') {
-        this.error = '密码不能为空'
+        this.nameCorrect = false
         this.isSubmit = true
       } else {
+        this.nameCorrect = true
+        this.isSubmit = false
+      }
+      if (this.password === '') {
+        this.error = '密码不能为空'
+        this.passCorrect = false
+        this.isSubmit = true
+      } else {
+        this.passCorrect = true
         this.isSubmit = false
       }
       if (this.isSubmit === true) {
@@ -122,8 +129,15 @@ export default {
         if (data.code === '000000') {
           this.$store.commit('SET_USERID', data.data.id)
           this.$store.commit('SET_NICKNAME', data.data.nickName)
+          this.$store.commit('SET_SCODE', data.data.sCode)
           this.$store.commit('SET_ISLOGIN', true)
           this.$router.push('/userinfo')
+        } else {
+          Toast({
+            message: data.message,
+            position: 'middle',
+            duration: 5000
+          })
         }
       })
       // this.$http.post(url, {account: that.username, password: that.password}).then((res) => {
