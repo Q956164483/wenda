@@ -5,27 +5,27 @@
         针对话题的自我简介：
       </div>
       <textarea v-model="title" maxlength="40" name="" id="" placeholder="如：我是中国地质大学研究生招办客服，如何报考我校？请问我吧！">
-      </textarea>
+       </textarea>
       <div class="counter">{{title.length}}/40</div>
     </div>
     <div class="describe card">
       <div class="text">
         话题详细描述：
       </div>
-      <textarea name="" id="" placeholder="请输入话题描述">
+      <textarea name="" id="" placeholder="请输入话题描述" v-model="desc">
       </textarea>
-      <div class="counter">0/300</div>
+      <div class="counter">{{desc.length}}/300</div>
     </div>
-    <div class="img card">
-      <img class="uploadImg" :src="uploadImg">
-      <input  type="file" value="上传" class="file">
+    <div class="img card clear">
+      <!-- <img class="uploadImg" :src="uploadImg">
+      <input  type="file" value="上传" class="file"> -->
       <div v-if="images.length>0" v-for="(item,index) in images" :style="{backgroundImage: 'url(' + item + ')'}" class="photo-item bc-img1">
       </div>
-      <label v-if="images.length===0" for="checkPhoto" class="photo-item box-ac box-pc box">
-          <div class="uploadImg"></div>
-          <input @change="getFile($event)"  id="checkPhoto" type="file" multiple="multiple" accept="image/*"/>
+      <label v-if="images.length===0" for="checkPhoto" class="photo-item fl">
+          <img class="uploadImg" :src="uploadImg">
+          <input @change="getFile($event)" class="file" id="checkPhoto" type="file" multiple="multiple" accept="image/*"/>
       </label>
-      <div class="decs">
+      <div class="decs fl">
         <p class="text">添加话题图片</p>
         <p class="sub">(建议尺寸:690*400px)</p>
       </div>
@@ -34,7 +34,7 @@
     <div class="list clear">所属专业<img :src="arrow" alt="" class="arrow-right fr"></div>
     <div class="error" v-show="isSubmit">{{error}}</div>
     <div class="btns clear">
-      <div class="btn cancel fl">取消</div>
+      <div class="btn cancel fl" @click="$router.push('/')">取消</div>
       <div @click="saveTopic()" class="btn submit fr">提交</div>
     </div>
   </div>
@@ -51,13 +51,16 @@ export default {
       error: '错误信息',
       isSubmit: true,
       file: '',
-      title: ''
+      title: '',
+      desc: ''
     }
   },
   methods: {
     getFile (event) {
       var ele = event.currentTarget
       this.file = ele.files[0]
+      this.images.push(this.file)
+      console.log(this.file)
     },
     saveTopic () {
       var self = this
@@ -120,6 +123,7 @@ export default {
       .card {
         padding: .2rem;
         border-bottom: 1px solid #DCDCDC;
+        position: relative;
         .text {
           margin-bottom: .12rem;
         }
@@ -133,6 +137,13 @@ export default {
           background-color: #FAFAFA;
           font-size: .26rem
         }
+        .counter {
+          position: absolute;
+          right: .3rem;
+          bottom: .3rem;
+          font-size: .28rem;
+          color: #999;
+        }
       }
       .img {
         .uploadImg {
@@ -145,7 +156,7 @@ export default {
         .decs {
           display: inline-block;
           vertical-align: super;
-          margin-left: .06rem;
+          margin-left: .1rem;
           .text {
             margin-bottom: .24rem;
           }
@@ -166,7 +177,8 @@ export default {
       }
       .error {
         text-align: center;
-        line-height: 1rem;
+        margin-top: .2rem;
+        margin-bottom: -.2rem;
         // padding-left: .2rem;
         // background-color: $error-bg;
         color:$txt-color3;
@@ -175,8 +187,16 @@ export default {
       .btns {
         width: 4.9rem;
         margin: 0 auto;
+        margin-top: .4rem;
         .btn {
           @include btn(1.8rem, .6rem, .3rem, $txt-color2)
+          border-radius: 4px;
+        }
+        .btn.cancel {
+          border-color: #999;
+        }
+        .btn.submit {
+          color: $theme-color;
         }
       }
     }

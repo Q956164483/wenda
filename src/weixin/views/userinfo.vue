@@ -95,7 +95,11 @@
     },
     methods: {
       exit() {
-
+        this.$store.commit('SET_USERID', '')
+        this.$store.commit('SET_NICKNAME', '')
+        this.$store.commit('SET_SCODE', '')
+        this.$store.commit('SET_ISLOGIN', false)
+        this.$router.push('/login')
       }
     },
     created() {
