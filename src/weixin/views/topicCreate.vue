@@ -4,9 +4,9 @@
       <div class="text">
         针对话题的自我简介：
       </div>
-      <textarea name="" id="" placeholder="如：我是中国地质大学研究生招办客服，如何报考我校？请问我吧！">
+      <textarea v-model="title" maxlength="40" name="" id="" placeholder="如：我是中国地质大学研究生招办客服，如何报考我校？请问我吧！">
       </textarea>
-      <div class="counter">0/40</div>
+      <div class="counter">{{title.length}}/40</div>
     </div>
     <div class="describe card">
       <div class="text">
@@ -18,7 +18,13 @@
     </div>
     <div class="img card">
       <img class="uploadImg" :src="uploadImg">
-      <input type="file" value="上传" class="file">
+      <input  type="file" value="上传" class="file">
+      <div v-if="images.length>0" v-for="(item,index) in images" :style="{backgroundImage: 'url(' + item + ')'}" class="photo-item bc-img1">
+      </div>
+      <label v-if="images.length===0" for="checkPhoto" class="photo-item box-ac box-pc box">
+          <div class="uploadImg"></div>
+          <input @change="getFile($event)"  id="checkPhoto" type="file" multiple="multiple" accept="image/*"/>
+      </label>
       <div class="decs">
         <p class="text">添加话题图片</p>
         <p class="sub">(建议尺寸:690*400px)</p>
@@ -29,7 +35,7 @@
     <div class="error" v-show="isSubmit">{{error}}</div>
     <div class="btns clear">
       <div class="btn cancel fl">取消</div>
-      <div class="btn submit fr">提交</div>
+      <div @click="saveTopic()" class="btn submit fr">提交</div>
     </div>
   </div>
 </template>
@@ -41,8 +47,50 @@ export default {
     return {
       uploadImg: require('../img/upload.png'),
       arrow: require('../img/arrow-right.png'),
+      images: [],
       error: '错误信息',
-      isSubmit: true
+      isSubmit: true,
+      file: '',
+      title: ''
+    }
+  },
+  methods: {
+    getFile (event) {
+      var ele = event.currentTarget
+      this.file = ele.files[0]
+    },
+    saveTopic () {
+      var self = this
+      var state = self.$store.state
+      var title = '我是标题'
+      var content = '我是内容'
+      var file = self.file
+      if (file === '') {
+        console.log('没图片')
+      }
+      var formData = new FormData()
+      formData.append('file', file)
+      formData.append('title', title)
+      formData.append('content', content)
+      formData.append('sCode', state.sCode)
+      formData.append('creatorId', state.creatorId)
+      formData.append('creator', 'msc')
+      this.$http.post(state.host + state.baseUrl + '/topic/saveTopic', formData)
+      .then(res => {
+        console.log(res)
+      }, err => {
+        console.log('err>>>', err)
+      })
+    //   this.$http({
+    //     method: 'post',
+    //     url: state.host + state.baseUrl + '/topic/saveTopic',
+    //     data: formData
+    //   })
+    //   .then(res => {
+    //     console.log(res)
+    //   }, err => {
+    //     console.log('err>>>', err)
+    //   })
     }
   },
   created() {
