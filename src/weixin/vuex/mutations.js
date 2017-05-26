@@ -12,6 +12,10 @@ export const mutations = {
   SET_NICKNAME (state, flag) {
     state.userName = flag;
   },
+  // 设置用户信息
+  SET_USERINFO (state, info) {
+    state.userInfo = info;
+  },
   // 设置是否在加载
   SET_ISLOADING (state, flag) {
     state.isLoading = flag;
