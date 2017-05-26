@@ -127,9 +127,9 @@
                 <div class="icon-ask"></div>
                 <div class="txt">我要提问</div>
             </div>
-            <div class="box box-f1 box-fh box-ac box-pc foot-item">
+            <div @click="savePraiseData(3, topicId)" class="box box-f1 box-fh box-ac box-pc foot-item">
                 <div class="icon-zan"></div>
-                <div class="txt">2633</div>
+                <div class="txt">{{}}</div>
             </div>
         </div>
     </div>
@@ -153,10 +153,6 @@ export default {
     }
   },
   mounted () {
-    Toast({
-      message: '获取详情错误',
-      duration: 500000000
-    })
     var self = this
     self.getTopicDetail(self.topicId)
     self.getQuestionAnswerList(self.topicId)
@@ -183,7 +179,7 @@ export default {
           }
         }, err => {
           Toast({
-            message: '获取详情错误',
+            message: '获取详情失败',
             duration: 5000
           })
           console.log('请求出错了>>>>', err)
@@ -231,14 +227,19 @@ export default {
             duration: 3000
           })
         }
+        self.showCommentFlag = false
       }, err => {
         Toast({
           message: '评论失败',
           position: 'bottom',
           duration: 3000
         })
+        self.showCommentFlag = false
         console.log('请求出错了>>>>', err)
       })
+    },
+    savePraiseData (type, bizId) {
+      console.log(type, bizId)
     }
   },
   watch: {
