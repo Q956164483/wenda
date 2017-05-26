@@ -1,17 +1,17 @@
 import Vue from 'vue'
 import VueResource from 'vue-resource'
+import ajax from './utils/ajax'
 import App from './views/App.vue'
 import router from './router'
 import store from './vuex/store'
 import 'mint-ui/lib/style.css'
 import './css/animate.scss'
 import {remChange, setDPR} from './utils/remChange'
-// 可以在页面单个组件引入
-// import MintUI from 'mint-ui'
-// Vue.use(MintUI)
-Vue.use(VueResource)
+
 setDPR()
 remChange()
+Vue.use(VueResource)
+Vue.use(ajax)
 
 router.beforeEach(function (to, from, next) {
   store.commit('SET_ISLOADING', true)
@@ -31,12 +31,6 @@ new Vue({
   router,
   store,
   template: '<App/>',
-  components: { App },
-  transitions: {
-    bounce: {
-      enterClass: 'bounceInLeft',
-      leaveClass: 'bounceOutRight'
-    }
-  }
+  components: { App }
 })
 
