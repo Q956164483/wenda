@@ -33,7 +33,7 @@
 
 <script>
 import pathNav from '../components/path.vue'
-import {Indicator} from 'mint-ui'
+import {Indicator, Toast} from 'mint-ui'
 
 export default {
   components: {
@@ -69,6 +69,9 @@ export default {
     },
     getCode() {
       // 加个不可点击
+      if (this.isSend === true) {
+        return
+      }
       if (this.username === '') {
         this.error = '手机号或邮箱不能为空'
         this.isSubmit = true
@@ -125,7 +128,10 @@ export default {
       if (this.isSubmit === true) {
         return
       }
-
+      Indicator.open({
+        text: 'loading...',
+        spinnerType: 'snake'
+      })
       let that = this
       let accountType = 1
       if (this.username.indexOf('@') !== -1) {
@@ -133,10 +139,17 @@ export default {
       }
       let url = state.host + state.baseUrl + '/user/register?account=' + that.username + '&validCode=' + that.yanzheng + '&password=' + that.password + '&accountType=' + accountType
       this.$http.get(url).then((res) => {
-        Indicator.open({
-          text: 'loading...',
-          spinnerType: 'snake'
-        })
+        let data = res.body
+        Indicator.close()
+        if (data.code === '000000') {
+          this.$router.push('/login')
+        } else {
+          Toast({
+            message: data.message,
+            position: 'middle',
+            duration: 5000
+          })
+        }
         console.log(res.body)
       })
       // this.$http.post(url, {account: that.username, validCode: that.yanzheng, password: that.password, accountType: that.accountType}).then((res) => {
