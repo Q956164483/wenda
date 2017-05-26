@@ -147,7 +147,7 @@ export default {
           Toast({
             message: data.message,
             position: 'middle',
-            duration: 5000
+            duration: 3000
           })
         }
         console.log(res.body)
