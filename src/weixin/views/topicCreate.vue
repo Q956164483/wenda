@@ -89,7 +89,7 @@ export default {
       formData.append('content', content)
       formData.append('sCode', state.sCode)
       formData.append('creatorId', state.creatorId)
-      formData.append('creator', 'msc')
+      formData.append('creator', state.userName)
       this.$http.post(state.host + state.baseUrl + '/topic/saveTopic', formData)
       .then(res => {
         console.log(res)
