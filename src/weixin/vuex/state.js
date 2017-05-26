@@ -7,7 +7,7 @@ export const state = {
 	isLoading:false,
 	isLogin:false,
 	userId:'',
-	userName: '梅署春',
+	userName: '',
 	searchWord:'',
 	sCode:'',
 	departmentId: '',
