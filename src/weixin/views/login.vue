@@ -110,16 +110,21 @@ export default {
       if (this.isSubmit === true) {
         return
       }
-
+      Indicator.open({
+        text: 'loading...',
+        spinnerType: 'snake'
+      })
       let that = this
-      // let url = 'http://host:port/weixin/api/user/register'
       let url = state.host + state.baseUrl + '/user/login?account=' + that.username + '&password=' + that.password
       this.$http.get(url).then((res) => {
-        Indicator.open({
-          text: 'loading...',
-          spinnerType: 'snake'
-        })
-        console.log(res.body)
+        let data = res.body
+        Indicator.close()
+        if (data.code === '000000') {
+          this.$store.commit('SET_USERID', data.data.id)
+          this.$store.commit('SET_NICKNAME', data.data.nickName)
+          this.$store.commit('SET_ISLOGIN', true)
+          this.$router.push('/userinfo')
+        }
       })
       // this.$http.post(url, {account: that.username, password: that.password}).then((res) => {
       //   Indicator.open({
