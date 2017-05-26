@@ -161,6 +161,7 @@ export default {
         console.log(data)
         if (data.code === '000000') {
           this.$store.commit('SET_USERINFO', data.data)
+          this.$store.commit('SET_ISLOGIN', true)
           this.$router.push('/userinfo')
         } else {
           console.log('获取信息失败')
