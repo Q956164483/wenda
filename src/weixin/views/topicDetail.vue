@@ -42,7 +42,7 @@
             
         </div>
         <div class="comments box box-ver">
-            <div v-if="comments.length == 0" class="box box-pc box-ac tx-c comments-empty">
+            <div v-if="comments.length === 0" class="box box-pc box-ac tx-c comments-empty">
                 问题征集中,赶快向XXX提问吧
             </div>
             <div v-if="comments.length > 0" class="box box-ver comments-list">
@@ -129,7 +129,7 @@
             </div>
             <div @click="savePraiseData(3, topicId)" class="box box-f1 box-fh box-ac box-pc foot-item">
                 <div class="icon-zan"></div>
-                <div class="txt">{{}}</div>
+                <div class="txt"></div>
             </div>
         </div>
     </div>
@@ -164,6 +164,7 @@ export default {
     showReply () {
       this.$router.push('./commentsList')
     },
+    // 获取话题详情
     getTopicDetail (topicId) {
       var self = this
       var state = self.$store.state
@@ -178,31 +179,57 @@ export default {
             self.topicDetail = data
           }
         }, err => {
-          Toast({
-            message: '获取详情失败',
-            duration: 5000
-          })
+          Toast({message: '获取详情失败', duration: 2000})
           console.log('请求出错了>>>>', err)
         })
     },
+    // 获取回复列表
     getQuestionAnswerList (topicId) {
       var self = this
       var state = self.$store.state
-      var url = state.host + state.baseUrl + '/questionAnswer/findQuestionAnswerList?topicId=' + topicId + '&userId=' + state.userId + '&curPage=' + self.curPage + '&pageSize=5'
+      var url = state.host + state.baseUrl + '/questionAnswer/findQuestionAnswerList?topicId=' + topicId + '&answerSort=0&curPage=' + self.curPage + '&pageSize=5'
       self.$http.get(url)
         .then(res => {
-          var data = res.data.data
+          console.log('回复列表>>>>', JSON.stringify(res))
+          var data = res.data.data.data
           if (!data || data.length === 0) {
-            console.log('没有回复')
           } else {
-            console.log('回复列表>>>>', data)
+            console.log(data)
             self.comments = data
           }
         }, err => {
           console.log('请求出错了>>>>', err)
         })
     },
+    // 我要提问
     saveQAdata (pid) {
+      var self = this
+      var state = self.$store.state
+      if (self.commentWord.length === 0) {
+        Toast({message: '请先填写评论', duration: 2000})
+      }
+      console.log(self.topicDetail)
+      var url = state.host + state.baseUrl + '/questionAnswer/saveQAdata?topicId=' + self.topicId + '&targetUserId=' + state.userId + '&targetUserNickName=' + state.userName + '&content=' + self.commentWord + '&creatorId=' + self.topicDetail.creatorId + '&creator=' + self.topicDetail.userName
+      self.$http.get(url)
+      .then(res => {
+        var data = res.data
+        console.log(res)
+        if (data.code !== '000000') {
+          Toast({message: '提问失败', position: 'bottom', duration: 3000})
+        } else {
+          self.commentWord = ''
+          Toast({message: '提问成功', duration: 3000})
+        }
+        self.showCommentFlag = false
+      }, err => {
+        console.log('系统异常>>>>', err)
+        Toast({message: '评论失败', position: 'bottom', duration: 3000})
+        self.showCommentFlag = false
+      })
+    },
+    // 点赞
+    savePraiseData (type, bizId) {
+      console.log(type, bizId)
       var self = this
       var state = self.$store.state
       if (self.commentWord.length === 0) {
@@ -215,11 +242,7 @@ export default {
         var data = res.data
         console.log(res)
         if (data.code !== '000000') {
-          Toast({
-            message: '评论失败',
-            position: 'bottom',
-            duration: 3000
-          })
+          Toast({message: '系统异常', position: 'bottom', duration: 3000})
         } else {
           Toast({
             message: '评论成功',
@@ -237,9 +260,6 @@ export default {
         self.showCommentFlag = false
         console.log('请求出错了>>>>', err)
       })
-    },
-    savePraiseData (type, bizId) {
-      console.log(type, bizId)
     }
   },
   watch: {

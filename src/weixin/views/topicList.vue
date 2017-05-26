@@ -64,10 +64,9 @@
 </template>
 
 <script>
-// import { InfiniteScroll } from 'mint-ui'
 import {mapGetters} from 'vuex'
 import Vue from 'vue'
-import { InfiniteScroll } from 'mint-ui'
+import { InfiniteScroll, Toast } from 'mint-ui'
 Vue.use(InfiniteScroll)
 export default {
   name: 'hello',
@@ -147,6 +146,10 @@ export default {
         self.actTabIndex = -1
         return false
       }
+      if (!self.$store.sCode) {
+        Toast({message: '请先选择高校', position: 'top', duration: 1000})
+        return false
+      }
       this.$http.get(state.host + state.baseUrl + '/common/findDepartmentList?sCode=' + state.sCode)
         .then(res => {
           console.log(res)
@@ -172,6 +175,9 @@ export default {
       if (self.actTabIndex === 2) {
         self.actTabIndex = -1
         return false
+      }
+      if (!self.$store.sCode) {
+        Toast({message: '请先选择高校', position: 'top', duration: 1000})
       }
       this.$http.get(state.host + state.baseUrl + '/common/findMajorList?departId=' + state.departmentId)
         .then(res => {
@@ -201,10 +207,14 @@ export default {
       var actTabIndex = self.actTabIndex
       var state = self.$store.state
       self.actTabIndex = -1
+      console.log(self.actTabIndex)
       if (actTabIndex === 0) {
         self.$store.commit('SET_SCODE', code)
+        self.$store.commit('SET_DEPARTMENTID', '')
+        self.$store.commit('SET_MAJORID', '')
       } else if (actTabIndex === 1) {
         self.$store.commit('SET_DEPARTMENTID', code)
+        self.$store.commit('SET_MAJORID', code)
       } else if (actTabIndex === 2) {
         self.$store.commit('SET_MAJORID', code)
       }
