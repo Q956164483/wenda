@@ -54,6 +54,7 @@ export default {
     },
     goTopicDetail (item) {
       var self = this
+      self.searchWord = ''
       self.checkLogin('/topicDetail?topicId=' + item.id)
     }
   },

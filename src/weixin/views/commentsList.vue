@@ -99,7 +99,7 @@
 </template>
 
 <script>
-
+// import { Toast } from 'mint-ui'
 export default {
   components: {
     'nav-path': require('../components/path.vue')
@@ -116,6 +116,26 @@ export default {
     showComment () {
       this.showCommentFlag = true
     }
+    // getComments () {
+    //   var self = this
+    //   var state = self.$store.state
+    //   var url = state.host + state.baseUrl + '/questionAnswer/findQuestionAnswerList?topicId=' + topicId + '&userId=' + state.userId + '&curPage=' + self.curPage + '&pageSize=5'
+    //   self.$http.get(url)
+    //     .then(res => {
+    //       var data = res.data.data
+    //       if (!data || data.length === 0) {
+    //         Toast({
+    //           message: '暂无评论',
+    //           duration: 5000
+    //         })
+    //       } else {
+    //         console.log('回复列表>>>>', data)
+    //         self.comments = data
+    //       }
+    //     }, err => {
+    //       console.log('请求出错了>>>>', err)
+    //     })
+    // }
   },
   watch: {
   }

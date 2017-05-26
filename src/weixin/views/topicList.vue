@@ -92,7 +92,7 @@ export default {
       departmentList: [],
       topicList: [],
       showTabListFlag: false,
-      curPage: 0,
+      curPage: 1,
       ArrStatus: ['待审核', '进行中...', '此话题已关闭']
     }
   },
