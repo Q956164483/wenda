@@ -34,7 +34,7 @@
         <div class="box box-ver topic-list">
             <div v-for="item in topicList" @click="goTopicDetail(item)" :style="{'background-image':'url('+$store.state.hostImg + item.imgUrl+')'}"  class="box topic-item box-ver" >
                 <div class="create-user box box-ac">
-                    <div class="icon-head"></div>
+                    <div :style="{'background-image':'url('+$store.state.hostImg + item.userPhoto+')'}" class="icon-head"></div>
                     <div class="name ellipsis box-f1">{{item.userName}}</div>
                 </div>
                 <div class="box-f1"></div>

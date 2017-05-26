@@ -1,11 +1,12 @@
 <template>
     <div class="box box-ver" >
-        <nav-path :current="'XXX坐席'">
-            <a href="javascript:;" @click="$router.push('./')">XX大学</a>
+        <nav-path>
+            <a href="javascript:;" @click="goHome(topicDetail.sCode,topicDetail.departmentId,topicDetail.majorId)">{{topicDetail.schoolName?topicDetail.schoolName:'未知大学'}}</a>
             &gt;
+            <span>{{topicDetail.title}}</span>
         </nav-path>
         <div class="box box-ver topic-detail">
-            <div class="box banner topic-item box-ver" style="background-image:url(https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1495298744871&di=4e64a4d714992005e68cf647a95de613&imgtype=0&src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F6%2F578855a8e41e1.jpg)" >
+            <div :style="{'background-image':'url('+$store.state.hostImg + topicDetail.imgUrl+')'}" class="box banner topic-item box-ver">
                 <div class="box box-ac">
                     <div class="create-user box box-ac box-f1">
                         <div class="icon-head"></div>
@@ -34,8 +35,7 @@
                 <div class="box">
                     <div class="box-f1 date">2015-05-20</div>
                     <div class="box college">
-                        <a :href="'http://www.baidu.com'">院系</a>
-                        <a :href="'http://www.baidu.com'">专业</a>
+                        <a href="javascript:;" @click="goHome(topicDetail.sCode,topicDetail.departmentId,topicDetail.majorId)" v-text="getTopicType(topicDetail.sCode,topicDetail.departmentId,topicDetail.majorId)"></a>
                     </div>
                 </div>
             </div>
@@ -164,6 +164,19 @@ export default {
     showReply () {
       this.$router.push('./commentsList')
     },
+    goHome (sCode, departmentId, majorId) {
+      var self = this
+      self.$store.commit('SET_SCODE', !sCode ? '' : sCode)
+      self.$store.commit('SET_DEPARTMENTID', !departmentId ? '' : departmentId)
+      self.$store.commit('SET_MAJORID', !majorId ? '' : majorId)
+      self.$router.push('./')
+    },
+    getTopicType (sCode, departmentId, majorId) {
+      if (sCode && departmentId && majorId) return '专业话题'
+      if (sCode && departmentId && (!majorId)) return '院系话题'
+      if (sCode && (!departmentId) && (!majorId)) return '高校话题'
+      if (!sCode && (!departmentId) && (!majorId)) return '高校话题'
+    },
     // 获取话题详情
     getTopicDetail (topicId) {
       var self = this
@@ -232,11 +245,7 @@ export default {
       console.log(type, bizId)
       var self = this
       var state = self.$store.state
-      if (self.commentWord.length === 0) {
-        console.log('评论太短了')
-      }
-      console.log(self.topicDetail)
-      var url = state.host + state.baseUrl + '/questionAnswer/saveQAdata?topicId=' + self.topicId + '&targetUserId=' + state.userId + '&targetUserNickName=' + state.userName + '&content=' + self.commentWord + '&creatorId=' + self.topicDetail.creatorId + '&creator=' + self.topicDetail.userName
+      var url = state.host + state.baseUrl + '/questionAnswer/savePraiseData?bizId=' + bizId + '&userId=' + state.userId + '&type=' + type
       self.$http.get(url)
       .then(res => {
         var data = res.data
@@ -244,20 +253,11 @@ export default {
         if (data.code !== '000000') {
           Toast({message: '系统异常', position: 'bottom', duration: 3000})
         } else {
-          Toast({
-            message: '评论成功',
-            position: 'bottom',
-            duration: 3000
-          })
+          Toast({message: '点赞成功', duration: 3000})
         }
         self.showCommentFlag = false
       }, err => {
-        Toast({
-          message: '评论失败',
-          position: 'bottom',
-          duration: 3000
-        })
-        self.showCommentFlag = false
+        Toast({message: '点赞失败', duration: 3000})
         console.log('请求出错了>>>>', err)
       })
     }

@@ -9,7 +9,7 @@ export const mutations = {
     state.userId = flag;
   },
   // 设置用户名
-  SET_NICKNAME (state, flag) {
+  SET_USERNAME (state, flag) {
     state.userName = flag;
   },
   // 设置用户信息

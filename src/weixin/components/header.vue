@@ -1,6 +1,6 @@
 <template>
     <div class="box box-ac header">
-        <div class="icon-user" @click="checkLogin('./userList')">
+        <div class="icon-user" @click="checkLogin('./userInfo')">
             <div v-if="hasNews" class="news"></div>
         </div>
         <form class="box box-f1 box-ac" action="javascript: return true;" >
@@ -9,25 +9,27 @@
         </form>
         <div class="icon-user-list " @click="checkLogin('./userList')">
         </div>
-        <div :class="searchWord.length>0 ? '':'hide'" class="search-container box-ver">
-            <div v-if="searchList.length>0" class="search-list box box-ver">
-                <div v-for="(item, index) in searchList" @click="goTopicDetail(item)" class="search-item box box-ac">
-                    <div class="icon-search"></div>
-                    <div class="text box-f1 ellipsis">{{item.title}}</div>
+        <div @click="searchWord=''" :class="searchWord.length>0 ? '':'hide'" class="search-container box-ver">
+            <div @click="$event.stopPropagation()" class="box box-ver">
+                <div v-if="searchList.length>0" class="search-list box box-ver">
+                    <div v-for="(item, index) in searchList" @click="goTopicDetail(item)" class="search-item box box-ac">
+                        <div class="icon-search"></div>
+                        <div class="text box-f1 ellipsis">{{item.title}}</div>
+                    </div>
                 </div>
-            </div>
-            <div v-if="searchList.length===0" class="search-none box box-ac">
-                <div class="box box-f1 box-pc">抱歉！没有搜索到您要找的话题。</div>
-                <div @click="checkLogin('./topicCreate')" class="topic-create box box-ac box-pc">创建话题</div>
-            </div>
-            <div class="search-history">
-                <div class="box box-ac">
-                    <div class="icon-history"></div>
-                    <div>历史搜索记录</div>
+                <div v-if="searchList.length===0" class="search-none box box-ac">
+                    <div class="box box-f1 box-pc">抱歉！没有搜索到您要找的话题。</div>
+                    <div @click="checkLogin('./topicCreate')" class="topic-create box box-ac box-pc">创建话题</div>
                 </div>
-                <div class="list box box-ver">
-                    <div class="history-item">风刀霜剑</div>
-                    <div class="history-item">风刀霜剑</div>
+                <div class="search-history">
+                    <div class="box box-ac">
+                        <div class="icon-history"></div>
+                        <div>历史搜索记录</div>
+                    </div>
+                    <div class="list box box-ver">
+                        <div class="history-item">风刀霜剑</div>
+                        <div class="history-item">风刀霜剑</div>
+                    </div>
                 </div>
             </div>
         </div>

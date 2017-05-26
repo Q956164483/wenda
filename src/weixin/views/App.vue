@@ -14,18 +14,11 @@ import '../css/common.scss'
 import '../css/mint-ui.scss'
 
 export default {
-  name: 'app',
-  computed: {
-    isLoading () {
-      return this.$store.state.isloading
-    }
-  }
+  name: 'app'
 }
 </script>
 
 <style lang="scss" scoped>
-/*用于开发时模拟页面高度，手机上打开时请删掉*/
-  /*.container {margin-top:130px;}*/
   .loading{
     font-size:1rem;
     position:fixed;
