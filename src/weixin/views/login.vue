@@ -125,13 +125,14 @@ export default {
       let url = state.host + state.baseUrl + '/user/login?account=' + that.username + '&password=' + that.password
       this.$http.get(url).then((res) => {
         let data = res.body
-        Indicator.close()
+        // Indicator.close()
         if (data.code === '000000') {
           this.$store.commit('SET_USERID', data.data.id)
-          this.$store.commit('SET_NICKNAME', data.data.nickName)
-          this.$store.commit('SET_SCODE', data.data.sCode ? data.data.sCode : '')
-          this.$store.commit('SET_ISLOGIN', true)
-          this.$router.push('/userinfo')
+          // this.$store.commit('SET_NICKNAME', data.data.nickName)
+          // this.$store.commit('SET_SCODE', data.data.sCode ? data.data.sCode : '')
+          // this.$store.commit('SET_ISLOGIN', true)
+          this.getUserInfo(data.data.id)
+          // this.$router.push('/userinfo')
           console.log(data)
         } else {
           Toast({
@@ -149,8 +150,22 @@ export default {
       //   console.log(res.body)
       // })
       // 根据反馈改nameCorrect，passCorrect
-
-      // close loading，最后isSubmit显示；跳转注册后页面 || 留在当前
+    },
+    getUserInfo(id) {
+      let state = this.$store.state
+      let url = state.host + state.baseUrl + '/user/getUserInfoById?userId=' + id
+      console.log(url)
+      this.$http.get(url).then((res) => {
+        let data = res.body
+        Indicator.close()
+        console.log(data)
+        if (data.code === '000000') {
+          this.$store.commit('SET_USERINFO', data.data)
+          this.$router.push('/userinfo')
+        } else {
+          console.log('获取信息失败')
+        }
+      })
     },
     loginWeixin() {
       // 授权
