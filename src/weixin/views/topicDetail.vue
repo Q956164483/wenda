@@ -1,11 +1,11 @@
 <template>
-    <div class="box box-ver" >
+    <div class="box box-ver h-p100 content" @scroll="onScroll($event)">
         <nav-path>
-            <a href="javascript:;" @click="goHome(topicDetail.sCode,topicDetail.departmentId,topicDetail.majorId)">{{topicDetail.schoolName?topicDetail.schoolName:'未知大学'}}</a>
+            <a href="javascript:;" @click="goHome(topicDetail.sCode,topicDetail.departmentId,topicDetail.majorId)">{{topicDetail.schoolName?topicDetail.schoolName:'获取中...'}}</a>
             &gt;
             <span>{{topicDetail.title}}</span>
         </nav-path>
-        <div class="box box-ver topic-detail">
+        <div  class="box box-ver topic-detail">
             <div :style="{'background-image':'url('+$store.state.hostImg + topicDetail.imgUrl+')'}" class="box banner topic-item box-ver">
                 <div class="box box-ac">
                     <div class="create-user box box-ac box-f1">
@@ -59,24 +59,24 @@
                     </div>
                 </div>
                 <p class="desc-total">共83个提问·<span class="tc-main-act">80</span>个回复</p>
-                <div class="comments-item">
+                <div v-for="(item,index) in comments" class="comments-item">
                     <div class="box box-ver item">
                         <div class="box box-ac">
-                            <div class="icon-user"></div>
-                            <div class="box box-ver box-f1">
+                            <div class="icon-user" ></div>
+                            <div :style="{'background-image':'url('+$store.state.hostImg + topicDetail.imgUrl+')'}" class="box box-ver box-f1">
                                 <div class="nickname box">
-                                    <div>XXX</div>
-                                    <div class="tag">题主</div>
+                                    <div>{{item.answerUserName}}</div>
+                                    <div v-if="item.isTopicCreator == 0" class="tag">题主</div>
                                     <div class="tag tag-new">news</div>
                                 </div>
                                 <div class="time">2015-05-06</div>
                             </div>
                             <div @click="showReply()" class="box box-ac">
                                 <div class="icon-comment"></div>
-                                <div class="num">6</div>
+                                <div class="num">{{item.questionReplyNum}}</div>
                             </div>
                         </div>
-                        <div class="txt">您好！我想了解一下具有什么样的知识水平可以报名？</div>
+                        <div class="txt">{{item.question}}</div>
                     </div>
                     <div class="box box-ver item">
                         <div class="box box-ac">
@@ -85,18 +85,18 @@
                             </div>
                             <div class="box box-ver box-f1">
                                 <div class="nickname box">
-                                    <div>XXX</div>
-                                    <div class="tag">题主</div>
+                                    <div>{{item.answerUserName}}</div>
+                                    <div v-if="item.isTopicCreator == 0" class="tag">题主</div>
                                     <div class="tag tag-new">news</div>
                                 </div>
                                 <div class="time">2015-05-06</div>
                             </div>
                             <div class="box box-ac">
                                 <div class="icon-zan"></div>
-                                <div class="num">6</div>
+                                <div class="num">{{item.answerPraiseNum}}</div>
                             </div>
                         </div>
-                        <div class="txt">您好！我想了解一下具有什么样的知识水平可以报名？</div>
+                        <div class="txt">{{item.answer}}</div>
                     </div>
                 </div>
             </div>
@@ -118,7 +118,7 @@
                 </div>
             </div>
         </div>
-        <div class="foot-bar box box-fh box-ac">
+        <div :class="hideFooter?'hide-foot':''" class="foot-bar box box-fh box-ac">
             <div class="box box-f1 box-fh box-ac box-pc foot-item">
                 <div class="icon-share"></div>
                 <div class="txt">分享</div>
@@ -149,15 +149,37 @@ export default {
       commentWord: '', // 评论内容
       topicDetail: {}, // 话题详情
       curPage: 1,
-      topicId: this.$route.query.topicId
+      topicId: this.$route.query.topicId,
+      hideFooter: false,
+      nowTime: new Date().getTime()
     }
   },
   mounted () {
     var self = this
-    self.getTopicDetail(self.topicId)
-    self.getQuestionAnswerList(self.topicId)
+    self.getTopicDetail()
+    self.getQuestionAnswerList()
   },
   methods: {
+    onScroll (event) {
+      var self = this
+      var ele = event.currentTarget
+      var scrollTop = ele.scrollTop
+      if (scrollTop + ele.offsetHeight + 1 >= ele.scrollHeight) {
+        self.loadMore()
+      }
+      if (scrollTop - self.lastScrollTop > 0) {
+        self.hideFooter = true
+        console.log('下滑')
+      } else {
+        self.hideFooter = false
+        console.log('上滑')
+      }
+      self.lastScrollTop = ele.scrollTop
+    },
+    loadMore () {
+      this.curPage++
+      this.getQuestionAnswerList()
+    },
     showComment () {
       this.showCommentFlag = true
     },
@@ -178,10 +200,10 @@ export default {
       if (!sCode && (!departmentId) && (!majorId)) return '高校话题'
     },
     // 获取话题详情
-    getTopicDetail (topicId) {
+    getTopicDetail () {
       var self = this
       var state = self.$store.state
-      var url = state.host + state.baseUrl + '/topic/getTopicDetail?topicId=' + topicId + '&userId=' + state.userId
+      var url = state.host + state.baseUrl + '/topic/getTopicDetail?topicId=' + self.topicId + '&userId=' + state.userId
       self.$http.get(url)
         .then(res => {
           var data = res.data.data
@@ -197,20 +219,22 @@ export default {
         })
     },
     // 获取回复列表
-    getQuestionAnswerList (topicId) {
+    getQuestionAnswerList () {
+      // topicId = 13
       var self = this
       var state = self.$store.state
-      var url = state.host + state.baseUrl + '/questionAnswer/findQuestionAnswerList?topicId=' + topicId + '&answerSort=0&curPage=' + self.curPage + '&pageSize=5'
+      var url = state.host + state.baseUrl + '/questionAnswer/findQuestionAnswerList?topicId=' + self.topicId + '&answerSort=0&curPage=' + self.curPage + '&pageSize=5'
       self.$http.get(url)
         .then(res => {
           console.log('回复列表>>>>', JSON.stringify(res))
           var data = res.data.data.data
           if (!data || data.length === 0) {
+            self.curPage--
           } else {
-            console.log(data)
             self.comments = data
           }
         }, err => {
+          self.curPage--
           console.log('请求出错了>>>>', err)
         })
     },
@@ -286,6 +310,10 @@ export default {
     }
   },
   watch: {
+    watch: {
+      // 如果路由有变化，会再次执行该方法
+      '$route': 'getTopicDetail'
+    }
   }
 }
 </script>
@@ -298,6 +326,10 @@ export default {
         position:fixed;
         top:1.1rem !important;
         z-index:20;
+    }
+    .content{
+        overflow-y: scroll;
+        -webkit-overflow-scrolling: touch;
     }
     .topic-detail{
         padding-top:1.8rem;
@@ -517,6 +549,10 @@ export default {
         width:100%;
         height:1rem;
         background-color: #f9f9f9;
+        transition:all .333s;
+        &.hide-foot{
+            transform: translateY(100%)
+        }
         .foot-item{
             border-right:.02rem solid #e5e5e5;
             //height:.5rem;

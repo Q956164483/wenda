@@ -1,7 +1,5 @@
 <template>
-    <div v-infinite-scroll="loadMore"
-         infinite-scroll-distance="100" 
-         class="box box-ver">
+    <div class="box box-ver h-p100">
         <div class="box box-ac tab">
             <div @click="getSchoolList()" :class="actTabIndex==0?'act':''" class="tab-item box box-f1 box-fh box-ac box-pc">
                 <div>高校</div>
@@ -31,7 +29,7 @@
                 <div :class="item.id==$store.state.majorId?'act':''" v-for="(item,index) in majorList" @click="getTopicList(item.id)" class="list-item box box-ac">{{item.name}}</div>
             </div>
         </div>
-        <div class="box box-ver topic-list">
+        <div @scroll="onScroll($event)" class="box box-ver topic-list">
             <div v-for="item in topicList" @click="goTopicDetail(item)" :style="{'background-image':'url('+$store.state.hostImg + item.imgUrl+')'}"  class="box topic-item box-ver" >
                 <div class="create-user box box-ac">
                     <div :style="{'background-image':'url('+$store.state.hostImg + item.userPhoto+')'}" class="icon-head"></div>
@@ -56,7 +54,7 @@
                 </div>
             </div>
         </div>
-        <div v-if="$store.state.userInfo.isTopicAdmin == 1" @click="checkLogin('./topicCreate')" class="topic-create box box-pc box-ac">
+        <div v-if="$store.state.userInfo.isTopicAdmin == 1" :class="hideFooter?'hide-foot':''"  @click="checkLogin('./topicCreate')" class="topic-create box box-pc box-ac">
             <div class="icon-create-topic"></div>
             <div class="txt">我要创建话题</div>
         </div>
@@ -65,9 +63,7 @@
 
 <script>
 import {mapGetters} from 'vuex'
-import Vue from 'vue'
-import { InfiniteScroll, Toast } from 'mint-ui'
-Vue.use(InfiniteScroll)
+import { Toast } from 'mint-ui'
 export default {
   name: 'hello',
   components: {
@@ -92,10 +88,28 @@ export default {
       topicList: [],
       showTabListFlag: false,
       curPage: 1,
-      ArrStatus: ['待审核', '进行中...', '此话题已关闭']
+      ArrStatus: ['待审核', '进行中...', '此话题已关闭'],
+      lastScrollTop: 0,
+      hideFooter: false
     }
   },
   methods: {
+    onScroll (event) {
+      var self = this
+      var ele = event.currentTarget
+      var scrollTop = ele.scrollTop
+      if (scrollTop + ele.offsetHeight + 1 >= ele.scrollHeight) {
+        self.loadMore()
+      }
+      if (scrollTop - self.lastScrollTop > 0) {
+        self.hideFooter = true
+        console.log('下滑')
+      } else {
+        self.hideFooter = false
+        console.log('上滑')
+      }
+      self.lastScrollTop = ele.scrollTop
+    },
     loadMore () {
       this.curPage++
       this.getTopicList()
@@ -225,7 +239,7 @@ export default {
         self.curPage = 1
       }
       self.actTabIndex = -1
-      var url = state.host + state.baseUrl + '/topic/findTopicList?sCode=' + state.sCode + '&departmentId=' + state.departmentId + '&majorId=' + state.majorId + '&curPage=' + self.curPage + '&pageSize=5'
+      var url = state.host + state.baseUrl + '/topic/findTopicList?sCode=' + state.sCode + '&departmentId=' + state.departmentId + '&majorId=' + state.majorId + '&curPage=' + self.curPage + '&pageSize=3'
       this.$http({
         method: 'get',
         url: url
@@ -233,11 +247,14 @@ export default {
         var data = res.data.data.data
         console.log('findTopicList>>>>', res)
         if (!data || data.length === 0) {
+          self.curPage--
+          Toast({message: '没有更多话题了', duration: 1000})
         } else {
           if (self.curPage === 1) self.topicList = []
           self.topicList = self.topicList.concat(data)
         }
       }, err => {
+        self.curPage--
         console.log(err)
       })
     }
@@ -363,6 +380,10 @@ export default {
         height:1rem;
         background-color: #f9f9f9;
         color:$theme-color;
+        transition:all .333s;
+        &.hide-foot{
+            transform: translateY(100%)
+        }
         .txt{
             margin-left:.22rem;
         }

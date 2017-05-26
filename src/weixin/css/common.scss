@@ -48,6 +48,9 @@ li{list-style: none;}
 .box-ver{-webkit-box-orient:vertical;box-orient:vertical;}
 .box-rev {-webkit-box-direction:reverse;box-direction:reverse;}
 .box-fh{width:100%;}
+.h-p100{
+  height:100%
+}
 .hide{display: none !important;}
 /*浮动+清除浮动*/
 .fr{float: right} .fl{float: left}
