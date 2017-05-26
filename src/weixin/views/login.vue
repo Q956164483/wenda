@@ -96,16 +96,41 @@ export default {
       this.isShowOther = false
     },
     login() {
+      let state = this.$store.state
       // 前端判断用户名密码
+      if (this.username === '') {
+        this.error = '账号不能为空'
+        this.isSubmit = true
+      } else if (this.password === '') {
+        this.error = '密码不能为空'
+        this.isSubmit = true
+      } else {
+        this.isSubmit = false
+      }
+      if (this.isSubmit === true) {
+        return
+      }
 
-      // 传去后台，开启loading
-      Indicator.open({
-        text: 'loading...',
-        spinnerType: 'snake'
+      let that = this
+      // let url = 'http://host:port/weixin/api/user/register'
+      let url = state.host + state.baseUrl + '/user/login?account=' + that.username + '&password=' + that.password
+      this.$http.get(url).then((res) => {
+        Indicator.open({
+          text: 'loading...',
+          spinnerType: 'snake'
+        })
+        console.log(res.body)
       })
+      // this.$http.post(url, {account: that.username, password: that.password}).then((res) => {
+      //   Indicator.open({
+      //     text: 'loading...',
+      //     spinnerType: 'snake'
+      //   })
+      //   console.log(res.body)
+      // })
       // 根据反馈改nameCorrect，passCorrect
 
-      // close loading，最后isSubmit显示；跳转登陆后页面 || 留在当前
+      // close loading，最后isSubmit显示；跳转注册后页面 || 留在当前
     },
     loginWeixin() {
       // 授权

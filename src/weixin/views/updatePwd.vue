@@ -37,7 +37,9 @@ export default {
       password: '',
       password2: '',
       isSubmit: false,
-      error: '错误提示'
+      error: '错误提示',
+      id: 654
+      // 测试用id
       // nameCorrect: true,
       // passCorrect: true,
       // isShowOther: false,
@@ -46,13 +48,32 @@ export default {
   },
   methods: {
     update() {
+      let state = this.$store.state
       // 前端判断用户名密码
+      if (this.password === '' || this.password2 === '' || this.oldPassword === '') {
+        this.error = '密码不能为空'
+        this.isSubmit = true
+      }
+      if (this.isSubmit === true) {
+        return
+      }
 
-      // 传去后台，开启loading
-      Indicator.open({
-        text: 'loading...',
-        spinnerType: 'snake'
+      let that = this
+      let url = state.host + state.baseUrl + '/user/updatePassword?id=' + that.id + '&password=' + that.password + '&oldPassword=' + that.oldPassword
+      this.$http.get(url).then((res) => {
+        Indicator.open({
+          text: 'loading...',
+          spinnerType: 'snake'
+        })
+        console.log(res.body)
       })
+      // this.$http.post(url, {account: that.username, validCode: that.yanzheng, password: that.password, accountType: that.accountType}).then((res) => {
+      //   Indicator.open({
+      //     text: 'loading...',
+      //     spinnerType: 'snake'
+      //   })
+      //   console.log(res.body)
+      // })
       // 根据反馈改nameCorrect，passCorrect
 
       // close loading，最后isSubmit显示；跳转注册后页面 || 留在当前

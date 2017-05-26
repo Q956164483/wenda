@@ -29,6 +29,7 @@ body {
 textarea,input{
   border:none;
   outline:none;
+  resize:none;
 }
 a{
     color: $theme-color;

@@ -68,6 +68,13 @@ export default {
       }, 1000)
     },
     getCode() {
+      // 加个不可点击
+      if (this.username === '') {
+        this.error = '手机号或邮箱不能为空'
+        this.isSubmit = true
+        return
+      }
+      let state = this.$store.state
       this.countdown()
 
       let that = this
@@ -77,21 +84,31 @@ export default {
       }
       console.log(accountType)
       if (accountType === 1) {
-        let url = 'http://slwsfs.imwork.net/weixin/api/common/sendMobileValidCode'
-        this.$http.post(url, {mobile: that.username, codeType: 100}).then((res) => {
+        let url = state.host + state.baseUrl + '/common/sendMobileValidCode?mobile=' + that.username + '&codeType=100'
+        this.$http.get(url).then((res) => {
           console.log(res.body)
         })
+        // let url = 'http://slwsfs.imwork.net/weixin/api/common/sendMobileValidCode'
+        // console.log({mobile: that.username, codeType: 100})
+        // this.$http.post(url, {mobile: that.username, codeType: 100}).then((res) => {
+        //   console.log(res.body)
+        // })
       } else if (accountType === 2) {
-        let url = 'http://slwsfs.imwork.net/weixin/api/common/sendEmailValidCode'
-        this.$http.post(url, {email: that.username, codeType: 100}).then((res) => {
+        let url = state.host + state.baseUrl + '/common/sendEmailValidCode?email=' + that.username + '&codeType=100'
+        this.$http.get(url).then((res) => {
           console.log(res.body)
         })
+        // let url = state.host + state.baseUrl + '/common/sendEmailValidCode'
+        // this.$http.post(url, {email: that.username, codeType: 100}).then((res) => {
+        //   console.log(res.body)
+        // })
       }
     },
     register() {
+      let state = this.$store.state
       // 前端判断用户名密码
       if (this.username === '') {
-        this.error = '手机号或邮箱不能为空'
+        this.error = '账号不能为空'
         this.isSubmit = true
       } else if (this.yanzheng === '') {
         this.error = '验证码不能为空'
@@ -110,15 +127,25 @@ export default {
       }
 
       let that = this
-      // let url = 'http://host:port/weixin/api/user/register'
-      let url = 'http://slwsfs.imwork.net/weixin/api/user/register'
-      this.$http.post(url, {account: that.username, validCode: that.yanzheng, password: that.password, accountType: that.accountType}).then((res) => {
+      let accountType = 1
+      if (this.username.indexOf('@') !== -1) {
+        accountType = 2
+      }
+      let url = state.host + state.baseUrl + '/user/register?account=' + that.username + '&validCode=' + that.yanzheng + '&password=' + that.password + '&accountType=' + accountType
+      this.$http.get(url).then((res) => {
         Indicator.open({
           text: 'loading...',
           spinnerType: 'snake'
         })
         console.log(res.body)
       })
+      // this.$http.post(url, {account: that.username, validCode: that.yanzheng, password: that.password, accountType: that.accountType}).then((res) => {
+      //   Indicator.open({
+      //     text: 'loading...',
+      //     spinnerType: 'snake'
+      //   })
+      //   console.log(res.body)
+      // })
       // 根据反馈改nameCorrect，passCorrect
 
       // close loading，最后isSubmit显示；跳转注册后页面 || 留在当前

@@ -15,7 +15,7 @@
       </div>
       <div class="box">
         <input type="text" placeholder="请输入您的验证码" v-model="yanzheng" class="box box-f1 yanzheng">
-        <span class="yanzhengBtn">获取验证码</span>
+        <span class="yanzhengBtn" @click="getCode">获取验证码</span>
       </div>
       <div class="box">
         <input type="password" placeholder="请输入您的新密码" v-model="password">
@@ -46,6 +46,8 @@ export default {
       password: '',
       password2: '',
       isSubmit: false,
+      isSend: false,
+      count: 120,
       error: '错误提示'
       // nameCorrect: true,
       // passCorrect: true,
@@ -54,14 +56,95 @@ export default {
     }
   },
   methods: {
+    countdown() {
+      let that = this
+      this.isSend = true
+      let counting = setInterval(function() {
+        that.count--
+        if (that.count <= 0) {
+          that.isSend = false
+          clearInterval(counting)
+          that.count = 120
+        }
+      }, 1000)
+    },
+    getCode() {
+      let state = this.$store.state
+      let that = this
+      let accountType = 1
+      // 加个不可点击
+      if (this.username === '') {
+        this.error = '手机号或邮箱不能为空'
+        this.isSubmit = true
+        return
+      }
+      this.countdown()
+      if (this.username.indexOf('@') !== -1) {
+        accountType = 2
+      }
+      console.log(accountType)
+      if (accountType === 1) {
+        let url = state.host + state.baseUrl + '/common/sendMobileValidCode?mobile=' + that.username + '&codeType=101'
+        this.$http.get(url).then((res) => {
+          console.log(res.body)
+        })
+        // let url = 'http://slwsfs.imwork.net/weixin/api/common/sendMobileValidCode'
+        // console.log({mobile: that.username, codeType: 100})
+        // this.$http.post(url, {mobile: that.username, codeType: 100}).then((res) => {
+        //   console.log(res.body)
+        // })
+      } else if (accountType === 2) {
+        let url = state.host + state.baseUrl + '/common/sendEmailValidCode?email=' + that.username + '&codeType=101'
+        this.$http.get(url).then((res) => {
+          console.log(res.body)
+        })
+        // let url = state.host + state.baseUrl + '/common/sendEmailValidCode'
+        // this.$http.post(url, {email: that.username, codeType: 100}).then((res) => {
+        //   console.log(res.body)
+        // })
+      }
+    },
     retrieve() {
+      let state = this.$store.state
+      let that = this
+      let accountType = 1
       // 前端判断用户名密码
-
-      // 传去后台，开启loading
-      Indicator.open({
-        text: 'loading...',
-        spinnerType: 'snake'
+      if (this.username === '') {
+        this.error = '账号不能为空'
+        this.isSubmit = true
+      } else if (this.yanzheng === '') {
+        this.error = '验证码不能为空'
+        this.isSubmit = true
+      } else if (this.password === '' || this.password2 === '') {
+        this.error = '密码不能为空'
+        this.isSubmit = true
+      } else if (this.password !== this.password2) {
+        this.error = '两次密码不一致'
+        this.isSubmit = true
+      } else {
+        this.isSubmit = false
+      }
+      if (this.isSubmit === true) {
+        return
+      }
+      if (this.username.indexOf('@') !== -1) {
+        accountType = 2
+      }
+      let url = state.host + state.baseUrl + '/user/resetPassword?account=' + that.username + '&validCode=' + that.yanzheng + '&password=' + that.password + '&accountType=' + accountType
+      this.$http.get(url).then((res) => {
+        Indicator.open({
+          text: 'loading...',
+          spinnerType: 'snake'
+        })
+        console.log(res.body)
       })
+      // this.$http.post(url, {account: that.username, validCode: that.yanzheng, password: that.password, accountType: that.accountType}).then((res) => {
+      //   Indicator.open({
+      //     text: 'loading...',
+      //     spinnerType: 'snake'
+      //   })
+      //   console.log(res.body)
+      // })
       // 根据反馈改nameCorrect，passCorrect
 
       // close loading，最后isSubmit显示；跳转注册后页面 || 留在当前
